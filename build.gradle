@@ -1,0 +1,132 @@
+buildscript {
+    ext.kotlin_version = '1.3.72'
+    ext.kotlin_coroutine = '1.3.5'
+    ext.kotlin_serialization = '0.20.0'
+    ext.http4k_version = '3.244.0'
+    ext.kafka_version = '2.3.1'
+    ext.confluent_version = '5.4.0'
+    ext.embedded_kafka = '2.4.0'
+    ext.kotlin_loggin_version = '1.7.9'
+    ext.logback_version = '1.2.3'
+    ext.log4j_version = '1.7.25'
+    ext.logstash_encoder_version = '6.3'
+    ext.prometheus_version = '0.8.1'
+    ext.kotest_version = '4.0.3'
+    ext.javax_annotation_version = '1.3.2'
+    ext.caffeine_version = '2.8.2'
+    ext.crm_utilities = '0.97'
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
+    id 'application'
+    id 'idea'
+    // id 'org.jmailen.kotlinter' version '2.3.2'
+    id 'com.github.ben-manes.versions' version '0.28.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+}
+
+group 'no.nav.sf.arbeidsgiver.aktivitet'
+version '0.2'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'no.nav.sf.arbeidsgiver.aktivitet.MainKt'
+    }
+}
+
+shadowJar {
+    archiveBaseName.set('app')
+    archiveClassifier.set('')
+}
+
+application {
+    mainClassName = 'no.nav.sf.arbeidsgiver.aktivitet.MainKt'
+}
+
+tasks.withType(JavaExec) {
+    jvmArgs = ['-Xms1024m', '-Xmx2048m']
+}
+
+run {
+    environment "MS_BETWEEN_WORK", "20000"
+}
+
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven {
+        url "http://packages.confluent.io/maven"
+    }
+    maven {
+        url "https://repo1.maven.org/maven2"
+    }
+
+    ["maven-release", "crm-utilities"].each { repo ->
+        String token = System.getenv("GITHUB_TOKEN") ?: project.findProperty("githubPassword")
+        if (!token) throw new NullPointerException("Missing token, you have to set GITHUB_TOKEN or githubPassword")
+        maven {
+            url = uri("https://maven.pkg.github.com/navikt/$repo")
+            credentials {
+                username = 'x-access-token'
+                password = token
+            }
+        }
+    }
+}
+
+configurations {
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+dependencies {
+    compile "com.amazonaws:aws-java-sdk-s3:1.11.703"
+
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization"
+
+    implementation group: 'com.pontusvision.salesforce', name: 'emp-connector', version: '0.0.2'
+
+    implementation "no.nav.sf.library:crm-utilities:$crm_utilities"
+
+    implementation "org.http4k:http4k-core:$http4k_version"
+    implementation "org.http4k:http4k-server-netty:$http4k_version"
+    implementation "org.http4k:http4k-client-apache:$http4k_version"
+
+    implementation "org.apache.kafka:kafka-clients:$kafka_version"
+
+    compileOnly "javax.annotation:javax.annotation-api:$javax_annotation_version"
+
+    implementation "io.github.microutils:kotlin-logging:$kotlin_loggin_version"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+    implementation "net.logstash.logback:logstash-logback-encoder:$logstash_encoder_version"
+
+    implementation "io.prometheus:simpleclient_common:$prometheus_version"
+    implementation "io.prometheus:simpleclient_hotspot:$prometheus_version"
+
+    implementation "com.github.ben-manes.caffeine:caffeine:$caffeine_version"
+
+    testImplementation "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
+    testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
+
+    testImplementation "no.nav:kafka-embedded-env:$embedded_kafka"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    test.kotlin.srcDirs += 'src/test/kotlin'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "11"
+}
