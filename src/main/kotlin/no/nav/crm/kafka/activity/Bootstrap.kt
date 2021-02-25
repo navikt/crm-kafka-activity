@@ -1,4 +1,4 @@
-package no.nav.sf.arbeidsgiver.aktivitet
+package no.nav.crm.kafka.activity
 
 import java.util.function.Consumer
 import com.salesforce.emp.connector.EmpConnector

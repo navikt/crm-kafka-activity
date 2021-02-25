@@ -27,12 +27,12 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
-group 'no.nav.sf.arbeidsgiver.aktivitet'
+group 'no.nav.crm.kafka.activity'
 version '0.2'
 
 jar {
     manifest {
-        attributes 'Main-Class': 'no.nav.sf.arbeidsgiver.aktivitet.MainKt'
+        attributes 'Main-Class': 'no.nav.crm.kafka.activity.MainKt'
     }
 }
 
@@ -42,7 +42,7 @@ shadowJar {
 }
 
 application {
-    mainClassName = 'no.nav.sf.arbeidsgiver.aktivitet.MainKt'
+    mainClassName = 'no.nav.crm.kafka.activity.MainKt'
 }
 
 tasks.withType(JavaExec) {

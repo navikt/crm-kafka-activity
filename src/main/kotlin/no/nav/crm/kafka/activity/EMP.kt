@@ -1,4 +1,4 @@
-package no.nav.sf.arbeidsgiver.aktivitet
+package no.nav.crm.kafka.activity
 
 import com.salesforce.emp.connector.BayeuxParameters
 import com.salesforce.emp.connector.EmpConnector
