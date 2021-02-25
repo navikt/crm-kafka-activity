@@ -18,8 +18,12 @@ const val EV_kafkaKeystorePath = "KAFKA_KEYSTORE_PATH"
 const val EV_kafkaCredstorePassword = "KAFKA_CREDSTORE_PASSWORD"
 const val EV_kafkaTruststorePath = "KAFKA_TRUSTSTORE_PATH"
 
-//val topic = fetchEnv(EV_kafkaTopic)
-/*
+val topic = fetchEnv(EV_kafkaTopic)
+
+fun fetchEnv(env: String): String {
+    return System.getenv(env)
+}
+
 val kafkaProducerConfig: Properties = mapOf<String, Any>(
     ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
     ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
@@ -49,7 +53,7 @@ val kafkaConsumerConfig: Properties = mapOf<String, Any>(
     SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaTruststorePath),
     SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword))
     .asProperties()
-*/
+
 fun Map<String, Any>.asProperties(): Properties {
     val props = Properties()
     this.forEach { (k, v) -> props[k] = v }
