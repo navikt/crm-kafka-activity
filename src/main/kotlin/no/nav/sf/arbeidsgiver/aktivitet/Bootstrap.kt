@@ -1,25 +1,35 @@
 package no.nav.sf.arbeidsgiver.aktivitet
 
-import mu.KotlinLogging
+import java.util.function.Consumer
+import com.salesforce.emp.connector.EmpConnector
+import org.eclipse.jetty.util.ajax.JSON
 
-import com.salesforce.emp.connector.example.DevLoginExample
-
-/**
- * Bootstrap is a very simple µService manager
- * - start, enables mandatory NAIS API before entering 'work' loop
- * - loop,  invokes a work -, then a wait session, until shutdown - or prestop hook (NAIS feature),
- * - conditionalWait, waits a certain time, checking the hooks once a while
- */
+// Environment dependencies injected in pod by nais kafka solution
+const val EMP_URL = "KAFKA_URL"
+const val EMP_USERNAME = "KAFKA_USERNAME"
+const val EMP_PASSWORD = "KAFKA_PASSWORD"
+const val EMP_TOPIC = "KAFKA_TOPIC"
+const val EMP_REPLAYFROM = "KAFKA_REPLAYFROM"
 
 object Bootstrap {
 
-    private val log = KotlinLogging.logger { }
-
     fun start() {
-        log.info { "Starting" }
-        log.info { "Finished!" }
 
-        DevLoginExample("https://test.salesforce.com", "john.foreland@nav.no.preprod", "n3M21ZGTixFKn3M21ZGTixFKC5JQjw1FHfGGEVWhcMBPmd18i");
+        EMP.processEvents(
+            EMP_URL,
+            EMP_USERNAME,
+            EMP_PASSWORD,
+            EMP_TOPIC,
+            if(EMP_REPLAYFROM == "-1") EmpConnector.REPLAY_FROM_TIP else EmpConnector.REPLAY_FROM_EARLIEST,
+            processData()
+        )
+    }
 
+    fun processData(): Consumer<Map<String, Any>> {
+        return Consumer<Map<String, Any>> { event ->
+            println(
+                "data4: " + JSON.toString(event.get("sobject")) //.get("sobject").get("Subject"))
+            )
+        }
     }
 }
