@@ -6,7 +6,6 @@ import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.TopicSubscription
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
-import org.cometd.bayeux.Channel.*
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
@@ -15,6 +14,11 @@ import java.util.concurrent.TimeoutException
 import java.util.function.Consumer
 import java.util.function.Supplier
 import kotlin.system.exitProcess
+import org.cometd.bayeux.Channel.META_CONNECT
+import org.cometd.bayeux.Channel.META_DISCONNECT
+import org.cometd.bayeux.Channel.META_HANDSHAKE
+import org.cometd.bayeux.Channel.META_SUBSCRIBE
+import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 
 object EMP {
 
@@ -28,7 +32,7 @@ object EMP {
         dataProcessMethod: Consumer<Map<String, Any>>
     ) {
 
-        val supplier: BayeuxParameters;
+        val supplier: BayeuxParameters
         try {
             supplier = LoginHelper.login(URL(url), username, password)
         } catch (e: Exception) {
@@ -41,10 +45,10 @@ object EMP {
 
         val loggingListener = LoggingListener(false, false)
         connector.addListener(META_HANDSHAKE, loggingListener)
-            .addListener(META_CONNECT, loggingListener)
-            .addListener(META_DISCONNECT, loggingListener)
-            .addListener(META_SUBSCRIBE, loggingListener)
-            .addListener(META_UNSUBSCRIBE, loggingListener)
+                .addListener(META_CONNECT, loggingListener)
+                .addListener(META_DISCONNECT, loggingListener)
+                .addListener(META_SUBSCRIBE, loggingListener)
+                .addListener(META_UNSUBSCRIBE, loggingListener)
 
         connector.setBearerTokenProvider(tokenProvider)
         connector.start()[5, TimeUnit.SECONDS]

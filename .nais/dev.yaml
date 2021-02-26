@@ -1,0 +1,51 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: crm-kafka-activity
+  namespace: teamdialog
+  labels:
+    team: teamdialog
+spec:
+  webproxy: true
+  image: {{ image }}
+  port: 8080
+  replicas:
+    min: 1
+    max: 1
+  liveness:
+    path: /isAlive
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    path: /isReady
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  prometheus:
+    enabled: false
+    path: /metrics
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+  vault:
+    enabled: false
+  kafka:
+    pool: nav-dev # enum of nav-dev, nav-prod
+  envFrom:
+    - secret: dialog-secret-for-denna-app
+  env:
+    - name: KAFKA_CLIENTID
+      value: crm-kafka-activity
+    - name: KAFKA_TOPIC
+      value: teamcrm.sf-sykefravaersstatistikk-v1
+    - name: SALESFORCE_TOPIC
+      value: topic1
+    - name: KAFKA_TOPIC
+      value: kafkatopc
+    - name: CONTEXT
+      value: q
