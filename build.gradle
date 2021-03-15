@@ -95,9 +95,9 @@ dependencies {
 
     implementation group: 'com.pontusvision.salesforce', name: 'emp-connector', version: '0.0.2'
 
-    implementation "org.http4k:http4k-core:$http4k_version"
-    implementation "org.http4k:http4k-server-netty:$http4k_version"
-    implementation "org.http4k:http4k-client-apache:$http4k_version"
+    //implementation "org.http4k:http4k-core:$http4k_version"
+    //implementation "org.http4k:http4k-server-netty:$http4k_version"
+    //implementation "org.http4k:http4k-client-apache:$http4k_version"
 
     implementation "org.apache.kafka:kafka-clients:$kafka_version"
 
