@@ -10,24 +10,27 @@ buildscript {
     ext.logback_version = '1.2.3'
     ext.log4j_version = '1.7.25'
     ext.logstash_encoder_version = '6.3'
-    ext.prometheus_version = '0.8.1'
-    ext.kotest_version = '4.0.3'
-    ext.javax_annotation_version = '1.3.2'
-    ext.caffeine_version = '2.8.2'
+    //ext.prometheus_version = '0.8.1'
+    //ext.junit5_version = '3.4.2'
+    //ext.grpc_version = '1.28.1'
+    //ext.kotest_version = '4.0.3'
+    //ext.caffeine_version = '2.8.2'
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
     id 'application'
     id 'idea'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    //id "com.github.davidmc24.gradle.plugin.avro" version '1.0.0'
     id 'org.jmailen.kotlinter' version '2.3.2'
     id 'com.github.ben-manes.versions' version '0.28.0'
     id 'com.github.johnrengelman.shadow' version '5.2.0'
+    //id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
+    //id 'com.google.protobuf' version '0.8.12'
 }
 
 group 'no.nav.crm.kafka.activity'
-version '0.2'
+version '0.1'
 
 jar {
     manifest {
@@ -52,16 +55,18 @@ run {
     environment "MS_BETWEEN_WORK", "20000"
 }
 
-
 repositories {
     mavenCentral()
+    gradlePluginPortal()
     jcenter()
-    maven {
-        url "http://packages.confluent.io/maven"
-    }
     maven {
         url "https://repo1.maven.org/maven2"
     }
+    maven {
+        url "http://packages.confluent.io/maven"
+    }
+
+
 
     ["maven-release"].each { repo ->
         String token = System.getenv("GITHUB_TOKEN") ?: project.findProperty("githubPassword")
@@ -81,11 +86,12 @@ configurations {
 }
 
 dependencies {
-    compile "com.amazonaws:aws-java-sdk-s3:1.11.703"
 
     implementation platform('org.jetbrains.kotlin:kotlin-bom')
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutine"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlin_serialization"
+
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.12.+"
 
     implementation group: 'com.pontusvision.salesforce', name: 'emp-connector', version: '0.0.2'
 
@@ -95,21 +101,13 @@ dependencies {
 
     implementation "org.apache.kafka:kafka-clients:$kafka_version"
 
-    compileOnly "javax.annotation:javax.annotation-api:$javax_annotation_version"
+    //implementation "com.github.ben-manes.caffeine:caffeine:$caffeine_version"
 
     implementation "io.github.microutils:kotlin-logging:$kotlin_loggin_version"
     implementation "ch.qos.logback:logback-classic:$logback_version"
     implementation "net.logstash.logback:logstash-logback-encoder:$logstash_encoder_version"
 
-    implementation "io.prometheus:simpleclient_common:$prometheus_version"
-    implementation "io.prometheus:simpleclient_hotspot:$prometheus_version"
-
-    implementation "com.github.ben-manes.caffeine:caffeine:$caffeine_version"
-
-    testImplementation "io.kotest:kotest-runner-junit5-jvm:$kotest_version"
-    testImplementation "io.kotest:kotest-assertions-core-jvm:$kotest_version"
-
-    testImplementation "no.nav:kafka-embedded-env:$embedded_kafka"
+    //testImplementation "no.nav:kafka-embedded-env:$embedded_kafka"
 }
 
 test {

@@ -36,16 +36,19 @@ spec:
     enabled: false
   kafka:
     pool: nav-dev # enum of nav-dev, nav-prod
+  filesFrom:
+    - secret: crm-kafka-activity-file
+      mountPath: /var/run/secrets/crm-kafka-secret
+      # secret will be available in the file /var/run/secrets/my-secret/secret
   envFrom:
-    - secret: dialog-secret-for-denna-app
+    - secret: crm-kafka-activity
+      # secret will be made available as environment variables
   env:
     - name: KAFKA_CLIENTID
       value: crm-kafka-activity
     - name: KAFKA_TOPIC
-      value: teamcrm.sf-sykefravaersstatistikk-v1
-    - name: SALESFORCE_TOPIC
-      value: topic1
-    - name: KAFKA_TOPIC
-      value: kafkatopc
-    - name: CONTEXT
-      value: q
+      value: team-dialog.crm-kafka-activity-tasks
+    - name: EMP_URL
+      value: https://test.salesforce.com
+    - name: EMP_TOPIC
+      value: TaskUpdates
