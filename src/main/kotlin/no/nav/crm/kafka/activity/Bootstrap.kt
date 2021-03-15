@@ -12,11 +12,11 @@ val EMP_TOPIC = System.getenv("EMP_TOPIC")
 object Bootstrap {
 
     fun start() {
-       enableNAISAPI {
+        enableNAISAPI {
             EMP.processEvents(
-               EMP_URL,
-               EMP_USERNAME,
-               EMP_PASSWORD,
+                EMP_URL,
+                EMP_USERNAME,
+                EMP_PASSWORD,
                 "/topic/$EMP_TOPIC",
                 EmpConnector.REPLAY_FROM_EARLIEST
             )

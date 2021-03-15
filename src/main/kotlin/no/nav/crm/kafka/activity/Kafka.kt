@@ -59,4 +59,3 @@ fun Map<String, Any>.asProperties(): Properties {
 fun fetchEnv(env: String): String {
     return System.getenv(env)
 }
-

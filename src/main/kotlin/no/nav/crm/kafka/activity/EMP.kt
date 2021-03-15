@@ -1,7 +1,6 @@
 package no.nav.crm.kafka.activity
 
 import mu.KotlinLogging
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.salesforce.emp.connector.BayeuxParameters
@@ -71,7 +70,6 @@ object EMP {
             throw e.cause!!
         }
     }
-
 
     fun processData(): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
