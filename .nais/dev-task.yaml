@@ -2,9 +2,9 @@ apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
   name: crm-kafka-activity
-  namespace: teamdialog
+  namespace: team-dialog
   labels:
-    team: teamdialog
+    team: team-dialog
 spec:
   webproxy: true
   image: {{ image }}
