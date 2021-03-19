@@ -1,8 +1,8 @@
 package no.nav.crm.kafka.activity
 
 import mu.KotlinLogging
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
+// import com.fasterxml.jackson.databind.ObjectMapper
+// import com.fasterxml.jackson.module.kotlin.readValue
 import com.salesforce.emp.connector.BayeuxParameters
 import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
@@ -20,7 +20,7 @@ import org.cometd.bayeux.Channel.META_DISCONNECT
 import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
-import org.eclipse.jetty.util.ajax.JSON
+// import org.eclipse.jetty.util.ajax.JSON
 
 private val log = KotlinLogging.logger { }
 
