@@ -37,8 +37,8 @@ spec:
   #kafka:
     #pool: nav-dev # enum of nav-dev, nav-prod
   filesFrom:
-    - secret: emp-login-file
-      mountPath: /var/run/secrets/emp-login
+    - secret: emp-login
+      mountPath: /var/run/secrets/my-secret
   envFrom:
     - secret: emp-login
   env:
