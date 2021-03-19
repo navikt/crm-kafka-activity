@@ -36,8 +36,6 @@ object EMP {
     ) {
 
         println("-------------------")
-        println("test")
-        println("-------------------")
         println("username: $username")
 
         val supplier: BayeuxParameters
