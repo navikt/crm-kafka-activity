@@ -38,9 +38,9 @@ spec:
     #pool: nav-dev # enum of nav-dev, nav-prod
   filesFrom:
     - secret: emp-login-file
-      mountPath: /var/run/secrets/EMP_LOGIN
+      mountPath: /var/run/secrets/emp-login
   envFrom:
-    - secret: EMP_LOGIN
+    - secret: emp-login
   env:
     - name: KAFKA_CLIENTID
       value: crm-kafka-activity
