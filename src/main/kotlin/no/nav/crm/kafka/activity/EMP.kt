@@ -8,8 +8,6 @@ import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
-import org.apache.kafka.clients.producer.KafkaProducer
-import org.apache.kafka.clients.producer.ProducerRecord
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
