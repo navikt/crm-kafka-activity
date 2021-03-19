@@ -1,0 +1,90 @@
+name: "Build, push, and deploy"
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+env:
+  IMAGE: docker.pkg.github.com/${{ github.repository }}/crm-kafka-activity:${{ github.sha }}
+  ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-cache-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+      - name: Build and run tests
+        run: ./gradlew clean build --info
+  build:
+    name: Build and push Docker container
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-cache-${{ hashFiles('build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-cache-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+      - name: Build JAR
+        run: ./gradlew clean build shadowJar -x test
+      - name: Build and publish Docker image
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          docker build . --pull --tag ${IMAGE}
+          echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
+          docker push ${IMAGE}
+  deploy-dev:
+    name: Deploy to dev fss
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        namespace: [task]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: .nais/dev-${{ matrix.namespace }}.yaml
+#  deploy-prod:
+#    name: Deploy to NAIS prod
+#    needs: build #deploy-dev
+#    if: github.ref == 'refs/heads/master'
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v1
+#      - uses: nais/deploy/actions/deploy@v1
+#        env:
+#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+#          CLUSTER: prod-gcp
+#          RESOURCE: .nais/prod.yaml
