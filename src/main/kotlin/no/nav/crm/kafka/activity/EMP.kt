@@ -72,13 +72,13 @@ object EMP {
 
     fun processData(): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
-
+            /*
             val eventKey = JSON.toString(event.get("event"))
             val sobject = JSON.toString(event.get("sobject"))
 
             val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
             val replayId = map.get("replayId")
-
+*/
             // val producer = KafkaProducer<String, String>(kafkaProducerConfig)
             // producer.use { p ->
             // p.send(ProducerRecord(topic, replayId, sobject))
