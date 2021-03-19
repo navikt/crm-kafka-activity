@@ -39,7 +39,6 @@ object EMP {
         println("test")
         println("-------------------")
         println("username: $username")
-        println("username2: $password")
 
         val supplier: BayeuxParameters
         try {
