@@ -80,11 +80,11 @@ object EMP {
             val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
             val replayId = map.get("replayId")
 
-            val producer = KafkaProducer<String, String>(kafkaProducerConfig)
-            producer.use { p ->
-                p.send(ProducerRecord(topic, replayId, sobject))
-                p.flush()
-            }
+            //val producer = KafkaProducer<String, String>(kafkaProducerConfig)
+            //producer.use { p ->
+            //  p.send(ProducerRecord(topic, replayId, sobject))
+            //  p.flush()
+            //}
         }
     }
 }

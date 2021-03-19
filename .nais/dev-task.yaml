@@ -34,12 +34,15 @@ spec:
       memory: 512Mi
   vault:
     enabled: false
-  kafka:
-    pool: nav-dev # enum of nav-dev, nav-prod
-  filesFrom:
-    - secret: crm-kafka-activity
-      mountPath: /var/run/secrets/crm-kafka-secret
+  #kafka:
+    #pool: nav-dev # enum of nav-dev, nav-prod
+  #filesFrom:
+    #- secret: crm-kafka-activity
+      #mountPath: /var/run/secrets/crm-kafka-secret
       # secret will be available in the file /var/run/secrets/my-secret/secret
+  #envFrom:
+    #- secret: crm-kafka-activity
+      # secret will be made available as environment variables
   env:
     - name: KAFKA_CLIENTID
       value: crm-kafka-activity
