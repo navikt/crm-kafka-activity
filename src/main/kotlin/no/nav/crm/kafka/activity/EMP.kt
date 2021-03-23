@@ -39,7 +39,6 @@ object EMP {
         println("username: $username")
 
         val supplier: BayeuxParameters = LoginHelper.login(URL(url), username, password)
-       
 
         println("1")
 
