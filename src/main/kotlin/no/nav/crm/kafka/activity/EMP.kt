@@ -21,7 +21,6 @@ object EMP {
 
         println("-------------------")
         println("username: $username")
-
     }
 
     fun processData(): Consumer<Map<String, Any>> {
