@@ -8,7 +8,7 @@ import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
-import java.lang.Exception
+// import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
