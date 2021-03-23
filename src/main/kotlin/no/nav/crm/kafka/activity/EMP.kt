@@ -8,7 +8,7 @@ import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
-// import java.lang.Exception
+import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
 import java.util.concurrent.TimeUnit
@@ -38,7 +38,12 @@ object EMP {
         println("-------------------")
         println("username: $username")
 
-        val supplier: BayeuxParameters = LoginHelper.login(URL(url), username, password)
+        val supplier: BayeuxParameters
+        try {
+            supplier = LoginHelper.login(URL(url), username, password)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
 
         println("1")
 
