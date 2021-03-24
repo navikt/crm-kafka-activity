@@ -33,18 +33,22 @@ object EMP {
     ) {
 
         println("-------------------")
-        println("String: $String")
+        println("-------------------")
+        println("url: $url")
         println("username: $username")
-        println("password (not real): $password")
         println("topic: $topic")
         println("replayFrom: $replayFrom")
+        println("-------------------")
+        println("-------------------")
 
         val supplier: BayeuxParameters
         try {
             println("11")
-
             supplier = LoginHelper.login(URL(url), username, password)
         } catch (e: Exception) {
+            println("error")
+            println(e)
+
             throw RuntimeException(e)
         }
 
