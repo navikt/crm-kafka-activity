@@ -1,6 +1,5 @@
 package no.nav.crm.kafka.activity
 
-import mu.KotlinLogging
 // import com.fasterxml.jackson.databind.ObjectMapper
 // import com.fasterxml.jackson.module.kotlin.readValue
 import com.salesforce.emp.connector.BayeuxParameters
@@ -22,8 +21,6 @@ import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 // import org.eclipse.jetty.util.ajax.JSON
 
-private val log = KotlinLogging.logger { }
-
 object EMP {
 
     @Throws(Throwable::class)
@@ -36,10 +33,16 @@ object EMP {
     ) {
 
         println("-------------------")
+        println("String: $String")
         println("username: $username")
+        println("password (not real): $password")
+        println("topic: $topic")
+        println("replayFrom: $replayFrom")
 
         val supplier: BayeuxParameters
         try {
+            println("11")
+
             supplier = LoginHelper.login(URL(url), username, password)
         } catch (e: Exception) {
             throw RuntimeException(e)
