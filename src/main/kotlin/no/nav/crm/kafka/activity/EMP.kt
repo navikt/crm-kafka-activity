@@ -37,7 +37,53 @@ object EMP {
 
         println("-------------------")
         println("username: $username")
-        
+
+        val supplier: BayeuxParameters
+        try {
+            supplier = LoginHelper.login(URL(url), username, password)
+        } catch (e: Exception) {
+            throw RuntimeException(e)
+        }
+
+        println("1")
+
+        val tokenProvider = BearerTokenProvider(Supplier { supplier })
+        println("2")
+
+        val params = tokenProvider.login()
+        println("3")
+
+        val connector = EmpConnector(params)
+        println("4")
+
+        val loggingListener = LoggingListener(false, false)
+        connector.addListener(META_HANDSHAKE, loggingListener)
+            .addListener(META_CONNECT, loggingListener)
+            .addListener(META_DISCONNECT, loggingListener)
+            .addListener(META_SUBSCRIBE, loggingListener)
+            .addListener(META_UNSUBSCRIBE, loggingListener)
+
+        println("5")
+
+        connector.setBearerTokenProvider(tokenProvider)
+        println("6")
+
+        connector.start()[5, TimeUnit.SECONDS]
+        println("7")
+
+        try {
+            connector.subscribe(topic, replayFrom, processData())[5, TimeUnit.SECONDS]
+        } catch (e: ExecutionException) {
+            println("catch1")
+
+            System.err.println(e.cause.toString())
+            throw e.cause!!
+        } catch (e: TimeoutException) {
+            println("catch2")
+
+            System.err.println("Timed out subscribing")
+            throw e.cause!!
+        }
     }
 
     fun processData(): Consumer<Map<String, Any>> {
