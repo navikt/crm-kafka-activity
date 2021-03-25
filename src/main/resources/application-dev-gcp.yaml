@@ -1,0 +1,4 @@
+no.nav.security:
+  crm-kafka-activity:
+    allowlist:
+      - https://test.salesforce.com
