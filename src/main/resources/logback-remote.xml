@@ -16,7 +16,7 @@
     <logger name="o.a.k.clients" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="stdout_json" />
     </root>
 
