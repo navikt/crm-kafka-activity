@@ -7,6 +7,7 @@ import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
+import mu.KotlinLogging
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
@@ -19,7 +20,10 @@ import org.cometd.bayeux.Channel.META_DISCONNECT
 import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
+
 // import org.eclipse.jetty.util.ajax.JSON
+
+private val log = KotlinLogging.logger { }
 
 object EMP {
 
@@ -32,36 +36,19 @@ object EMP {
         replayFrom: Long
     ) {
 
-        println("-------------------")
-        println("-------------------")
-        println("url: $url")
-        println("username: $username")
-        println("topic: $topic")
-        println("replayFrom: $replayFrom")
-        println("-------------------")
-        println("-------------------")
-
         val supplier: BayeuxParameters
         try {
-            println("11")
             supplier = LoginHelper.login(URL(url), username, password)
         } catch (e: Exception) {
-            println("error")
-            println(e)
-
+            log.error { e.cause.toString() }
             throw RuntimeException(e)
         }
 
-        println("1")
-
         val tokenProvider = BearerTokenProvider(Supplier { supplier })
-        println("2")
 
         val params = tokenProvider.login()
-        println("3")
 
         val connector = EmpConnector(params)
-        println("4")
 
         val loggingListener = LoggingListener(false, false)
         connector.addListener(META_HANDSHAKE, loggingListener)
@@ -70,25 +57,16 @@ object EMP {
             .addListener(META_SUBSCRIBE, loggingListener)
             .addListener(META_UNSUBSCRIBE, loggingListener)
 
-        println("5")
-
         connector.setBearerTokenProvider(tokenProvider)
-        println("6")
-
         connector.start()[5, TimeUnit.SECONDS]
-        println("7")
 
         try {
             connector.subscribe(topic, replayFrom, processData())[5, TimeUnit.SECONDS]
         } catch (e: ExecutionException) {
-            println("catch1")
-
-            System.err.println(e.cause.toString())
+            log.error { e.cause.toString() }
             throw e.cause!!
         } catch (e: TimeoutException) {
-            println("catch2")
-
-            System.err.println("Timed out subscribing")
+            log.error { e.cause.toString() }
             throw e.cause!!
         }
     }
