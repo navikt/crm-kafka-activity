@@ -9,6 +9,12 @@ spec:
   webproxy: true
   image: {{ image }}
   port: 8080
+  accessPolicy:
+    outbound:
+      external:
+        - host: test.salesforce.com
+        - host: navdialog--preprod.my.salesforce.com
+        - host: navdialog--uat.my.salesforce.com
   replicas:
     min: 1
     max: 1
