@@ -1,7 +1,7 @@
 package no.nav.crm.kafka.activity
 
-// import com.fasterxml.jackson.databind.ObjectMapper
-// import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.salesforce.emp.connector.BayeuxParameters
 import com.salesforce.emp.connector.EmpConnector
 import com.salesforce.emp.connector.LoginHelper
@@ -20,8 +20,7 @@ import org.cometd.bayeux.Channel.META_DISCONNECT
 import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
-
-// import org.eclipse.jetty.util.ajax.JSON
+import org.eclipse.jetty.util.ajax.JSON
 
 private val log = KotlinLogging.logger { }
 
@@ -73,13 +72,17 @@ object EMP {
 
     fun processData(): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
-            /*
+
             val eventKey = JSON.toString(event.get("event"))
             val sobject = JSON.toString(event.get("sobject"))
 
             val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
             val replayId = map.get("replayId")
-*/
+
+            log.info { "eventKey: $eventKey" }
+            log.info { "sobject: $sobject" }
+            log.info { "replayId: $replayId" }
+
             // val producer = KafkaProducer<String, String>(kafkaProducerConfig)
             // producer.use { p ->
             // p.send(ProducerRecord(topic, replayId, sobject))

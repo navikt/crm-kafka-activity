@@ -46,22 +46,24 @@ object Bootstrap {
     }
 }
 
+
 fun conditionalWait(ms: Long) =
-        runBlocking {
-            log.info { "Will wait $ms ms" }
-            val cr = launch {
-                runCatching { delay(ms) }
-                        .onSuccess { log.info { "waiting completed" } }
-                        .onFailure { log.info { "waiting interrupted" } }
-            }
-            tailrec suspend fun loop(): Unit = when {
-                cr.isCompleted -> Unit
-                ShutdownHook.isActive() || PrestopHook.isActive() -> cr.cancel()
-                else -> {
-                    delay(250L)
-                    loop()
-                }
-            }
-            loop()
-            cr.join()
+    runBlocking {
+        log.info { "Will wait $ms ms" }
+        val cr = launch {
+            runCatching { delay(ms) }
+                .onSuccess { log.info { "waiting completed" } }
+                .onFailure { log.info { "waiting interrupted" } }
         }
+
+        tailrec suspend fun loop(): Unit = when {
+            cr.isCompleted -> Unit
+            ShutdownHook.isActive() || PrestopHook.isActive() -> cr.cancel()
+            else -> {
+                delay(250L)
+                loop()
+            }
+        }
+        loop()
+        cr.join()
+    }
