@@ -8,6 +8,8 @@ import com.salesforce.emp.connector.LoginHelper
 import com.salesforce.emp.connector.example.BearerTokenProvider
 import com.salesforce.emp.connector.example.LoggingListener
 import mu.KotlinLogging
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
@@ -83,28 +85,14 @@ object EMP {
                 val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
                 val replayId = map.get("replayId")
 
-                log.info { "eventKey: $eventKey" }
-                log.info { "sobject: $sobject" }
                 log.info { "replayId: $replayId" }
+
+                val producer = KafkaProducer<String, String>(kafkaProducerConfig)
+                producer.use { p ->
+                    p.send(ProducerRecord(topic, replayId, sobject))
+                    p.flush()
+                }
             }
         }
-        /*return Consumer<Map<String, Any>> { event ->
-
-            val eventKey = JSON.toString(event.get("event"))
-            val sobject = JSON.toString(event.get("sobject"))
-
-            val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
-            val replayId = map.get("replayId")
-
-            log.info { "eventKey: $eventKey" }
-            log.info { "sobject: $sobject" }
-            log.info { "replayId: $replayId" }
-
-            // val producer = KafkaProducer<String, String>(kafkaProducerConfig)
-            // producer.use { p ->
-            // p.send(ProducerRecord(topic, replayId, sobject))
-            // p.flush()
-            // }
-        }*/
     }
 }

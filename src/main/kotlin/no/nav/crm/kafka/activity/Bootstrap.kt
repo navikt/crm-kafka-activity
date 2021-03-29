@@ -21,7 +21,7 @@ object Bootstrap {
 
     fun start() {
         enableNAISAPI {
-            log.info { "Before EMP processEvents" }
+            log.info { "Initiate event processing" }
             EMP.processEvents(
                 EMP_URL,
                 EMP_USERNAME,
@@ -29,16 +29,19 @@ object Bootstrap {
                 "/topic/$EMP_TOPIC",
                 EmpConnector.REPLAY_FROM_EARLIEST
             )
-            log.info { "After EMP processEvents" }
+            log.info { "Initiated event processing successfully" }
+            log.info { "Starting loop to continue running event processing in the background" }
             loop()
         }
     }
 
+    // needs loop to tell kubernetes processEvents() is still running and it not finished nor failing
     private tailrec fun loop() {
         val stop = ShutdownHook.isActive() || PrestopHook.isActive()
         when {
             stop -> Unit
             !stop -> {
+                // do not run start() again, as processEvents() processes events as they occurs (not in batches)
                 conditionalWait(600000) // Suspended wait (should not hog resources)
                 loop()
             }
@@ -48,11 +51,8 @@ object Bootstrap {
 
 fun conditionalWait(ms: Long) =
     runBlocking {
-        log.info { "Will wait $ms ms" }
         val cr = launch {
             runCatching { delay(ms) }
-                .onSuccess { log.info { "waiting completed" } }
-                .onFailure { log.info { "waiting interrupted" } }
         }
 
         tailrec suspend fun loop(): Unit = when {
