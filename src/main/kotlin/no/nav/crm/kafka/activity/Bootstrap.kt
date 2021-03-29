@@ -46,7 +46,6 @@ object Bootstrap {
     }
 }
 
-
 fun conditionalWait(ms: Long) =
     runBlocking {
         log.info { "Will wait $ms ms" }

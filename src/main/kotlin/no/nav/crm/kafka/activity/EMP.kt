@@ -21,6 +21,7 @@ import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 import org.eclipse.jetty.util.ajax.JSON
+// import java.util.concurrent.Executors
 
 private val log = KotlinLogging.logger { }
 
@@ -70,7 +71,21 @@ object EMP {
         }
     }
 
+    // private val workerThreadPool = Executors.newFixedThreadPool(1)
+
     fun processData(): Consumer<Map<String, Any>> {
+        /*return Consumer<Map<String, Any>> { event ->
+            workerThreadPool.submit({
+                println(
+                    String.format(
+                        "Received:\n%s, \nEvent processed by threadName:%s, threadId: %s",
+                        JSON.toString(event),
+                        Thread.currentThread().name,
+                        Thread.currentThread().id
+                    )
+                )
+            })
+        }*/
         return Consumer<Map<String, Any>> { event ->
 
             val eventKey = JSON.toString(event.get("event"))
