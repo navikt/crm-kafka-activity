@@ -21,7 +21,7 @@ import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 import org.eclipse.jetty.util.ajax.JSON
-// import java.util.concurrent.Executors
+import java.util.concurrent.Executors
 
 private val log = KotlinLogging.logger { }
 
@@ -50,7 +50,7 @@ object EMP {
 
         val connector = EmpConnector(params)
 
-        val loggingListener = LoggingListener(true, true)
+        val loggingListener = LoggingListener(false, true)
         connector.addListener(META_HANDSHAKE, loggingListener)
             .addListener(META_CONNECT, loggingListener)
             .addListener(META_DISCONNECT, loggingListener)
@@ -71,22 +71,24 @@ object EMP {
         }
     }
 
-    // private val workerThreadPool = Executors.newFixedThreadPool(1)
+    private val workerThreadPool = Executors.newFixedThreadPool(1)
 
     fun processData(): Consumer<Map<String, Any>> {
-        /*return Consumer<Map<String, Any>> { event ->
-            workerThreadPool.submit({
-                println(
-                    String.format(
-                        "Received:\n%s, \nEvent processed by threadName:%s, threadId: %s",
-                        JSON.toString(event),
-                        Thread.currentThread().name,
-                        Thread.currentThread().id
-                    )
-                )
-            })
-        }*/
         return Consumer<Map<String, Any>> { event ->
+
+            workerThreadPool.submit {
+                val eventKey = JSON.toString(event.get("event"))
+                val sobject = JSON.toString(event.get("sobject"))
+
+                val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
+                val replayId = map.get("replayId")
+
+                log.info { "eventKey: $eventKey" }
+                log.info { "sobject: $sobject" }
+                log.info { "replayId: $replayId" }
+            }
+        }
+        /*return Consumer<Map<String, Any>> { event ->
 
             val eventKey = JSON.toString(event.get("event"))
             val sobject = JSON.toString(event.get("sobject"))
@@ -103,6 +105,6 @@ object EMP {
             // p.send(ProducerRecord(topic, replayId, sobject))
             // p.flush()
             // }
-        }
+        }*/
     }
 }
