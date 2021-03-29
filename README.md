@@ -14,10 +14,10 @@ See [example-data](/example-data) for the data that's being published.
 # Adding Topics
 
 1. Add Push Topics
-   1. Define new Push Topics in [/.pushtopics](/.pushtopics) (files not required in repo, but practical for future changes)
+   1. Define new Push Topics in [/.push-topics](/.push-topics) (files not required in repo, but practical for future changes)
    1. Publish Push Topics by running Apex code in both Salesforce [production](https://navdialog.lightning.force.com) and [preproduction](https://navdialog--preprod.lightning.force.com)
 1. Add Kafka Topics
-   1. Define new Kafka Topics for `prod` and `dev` in [/.topics](/.topics) (files not required in repo, but practical for future changes)
+   1. Define new Kafka Topics for `prod` and `dev` in [/.kafka-topics](/.kafka-topics) (files not required in repo, but practical for future changes)
    1. Publish Kafka Topics
       - Make sure [naisdevice](https://doc.nais.io/device/install/) is setup correctly on your computer
       - Run `kubectl apply -f topic.yml` for each new topic
