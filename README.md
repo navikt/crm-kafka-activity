@@ -20,9 +20,9 @@ See [example-data](/example-data) for the data that's being published.
    1. Define new Kafka Topics for `prod` and `dev` in [/.kafka-topics](/.kafka-topics) (files not required in repo, but practical for future changes)
    1. Publish Kafka Topics
       - Make sure [naisdevice](https://doc.nais.io/device/install/) is setup correctly on your computer
-      - Run `kubectl apply -f topic.yml` for each new topic
-      <!-- - Make sure you have access to the projects ```team-dialog-dev``` and ```team-dialog-prod``` in [GCP](https://console.cloud.google.com)
-      - Make sure naisdevice icon is green and that you're logged into Google Cloud (`gcloud auth login`) -->
+      - Make sure naisdevice icon is green
+      - Make sure you're logged into Google Cloud locally using `gcloud auth login`
+      - Run `kubectl apply -f .kafka-topics/topic.yml` for each new topic
 1. Add a new config file in [/.nais](/.nais) for both `prod` and `dev`
 1. Edit [deploy.yml](/.github/.workflows/deploy.yml)
    - Add the new nais config file name to the `namespace` array in both `deploy-dev` and `deploy-prod`
