@@ -1,12 +1,9 @@
 name: Deploy Kafka Topics
 
 on:
-  workflow_dispatch:
   push:
     branches: main
-    paths:
-      - .topics/kafka-topics/**
-      - .github/workflows/deploy-topics.yml
+    paths: .topics/kafka-topics/**
 
 jobs:
   setup-matrix:
