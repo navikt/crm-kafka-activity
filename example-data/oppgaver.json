@@ -1,0 +1,40 @@
+{
+    "event": {
+        "createdDate": "2021-03-29T16:21:39.431Z",
+        "replayId": 1,
+        "type": "updated"
+    },
+    "sobject": {
+        "LastModifiedDate": "2021-03-29T16:21:39.000Z",
+        "WhatId": "0010E00000k8TRQQA2",
+        "RecurrenceDayOfWeekMask": null,
+        "RecurrenceEndDateOnly": null,
+        "ReminderDateTime": "2021-03-29T17:00:00.000Z",
+        "RecurrenceRegeneratedType": null,
+        "IsClosed": false,
+        "RecurrenceInterval": null,
+        "TAG_ActivityType__c": "Rekruttere og inkludere",
+        "Status": "Open",
+        "WhoId": "0030E00000gfNYOQA2",
+        "ActivityDate": "2021-03-10T00:00:00.000Z",
+        "Priority": "High",
+        "RecurrenceType": null,
+        "IsRecurrence": false,
+        "Subject": "Min oppgave",
+        "RecurrenceTimeZoneSidKey": null,
+        "IsArchived": false,
+        "CRM_Region__c": "Øst-Viken",
+        "Type": "Email",
+        "TAG_service__c": "Jobbmesser og møteplasser",
+        "CRM_AccountOrgNumber__c": null,
+        "CRM_Unit__c": "NAV Ullensaker",
+        "TaskSubtype": "task",
+        "RecurrenceMonthOfYear": null,
+        "RecurrenceDayOfMonth": null,
+        "CompletedDateTime": null,
+        "CreatedDate": "2021-03-29T12:42:34.000Z",
+        "RecurrenceInstance": null,
+        "Id": "00T0E00000FB0YLUA1",
+        "RecurrenceStartDateOnly": null
+    }
+}

@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
-          java-version: '8.x'
+          java-version: "8.x"
       - uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-java@v1
         with:
-          java-version: '8.x'
+          java-version: "8.x"
       - uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
@@ -65,23 +65,26 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        namespace: [task]
+        namespace: [oppgaver]
     steps:
       - uses: actions/checkout@v1
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: .nais/dev-${{ matrix.namespace }}.yaml
+          RESOURCE: .nais/${{ matrix.namespace }}-dev.yml
 #  deploy-prod:
 #    name: Deploy to NAIS prod
 #    needs: build #deploy-dev
 #    if: github.ref == 'refs/heads/main'
 #    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        namespace: [oppgaver]
 #    steps:
 #      - uses: actions/checkout@v1
 #      - uses: nais/deploy/actions/deploy@v1
 #        env:
 #          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
 #          CLUSTER: prod-gcp
-#          RESOURCE: .nais/prod.yaml
+#          RESOURCE: .nais/${{ matrix.namespace }}-prod.yml

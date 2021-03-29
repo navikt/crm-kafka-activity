@@ -7,14 +7,15 @@ metadata:
     team: team-dialog
 spec:
   webproxy: true
-  image: {{ image }}
+  image: { { image } }
   port: 8080
   accessPolicy:
     outbound:
       external:
+        - host: salesforce.com
+        - host: navdialog.my.salesforce.com
         - host: test.salesforce.com
         - host: navdialog--preprod.my.salesforce.com
-        - host: navdialog--uat.my.salesforce.com
   replicas:
     min: 1
     max: 1
@@ -51,8 +52,8 @@ spec:
     - name: KAFKA_CLIENTID
       value: crm-kafka-activity
     - name: KAFKA_TOPIC
-      value: team-dialog.crm-kafka-activity-tasks
+      value: team-dialog.crm-kafka-activity-oppgaver
     - name: EMP_URL
       value: https://test.salesforce.com
     - name: EMP_TOPIC
-      value: TaskUpdates
+      value: kafka-oppgaver
