@@ -49,7 +49,7 @@ object EMP {
 
         val connector = EmpConnector(params)
 
-        val loggingListener = LoggingListener(false, false)
+        val loggingListener = LoggingListener(true, true)
         connector.addListener(META_HANDSHAKE, loggingListener)
             .addListener(META_CONNECT, loggingListener)
             .addListener(META_DISCONNECT, loggingListener)
