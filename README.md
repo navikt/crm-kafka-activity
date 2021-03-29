@@ -36,7 +36,7 @@ See [example-data](/example-data) for the data that's being published.
 1. On `emp-login` → Click the three dots to the right → `Add new version`
 1. Add username and password with the following format:
 
-```javascript
-EMP_USERNAME = salesforce_service_user;
-EMP_PASSWORD = password + securitytoken; // no spaces and remove this comment
+```bash
+EMP_USERNAME=salesforce_service_user;
+EMP_PASSWORD=password+securitytoken;
 ```
