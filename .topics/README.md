@@ -1,6 +1,6 @@
 # Defining a New Topic
 
-To define a new topic that will later be published to, you must first creat a topic in both Salesforce and Aiven
+To define a new topic that will later be published to, you must first creat a topic in both Salesforce and Kafka
 
 ## Creating Push Topics in Salesforce
 
@@ -8,7 +8,7 @@ To define a new topic that will later be published to, you must first creat a to
 1. Push changes
 1. Publish Push Topics by running Apex code in both Salesforce [production](https://navdialog.lightning.force.com) and [preproduction](https://navdialog--preprod.lightning.force.com)
 
-## Creating Topics in Aiven
+## Creating Topics in Kafka
 
 1. Copy and paste an existing folder in [kafka-topics](/.topics/kafka-topics)
 1. Change the topic name inside `topic.yml`
