@@ -1,4 +1,4 @@
-name: Deploy Kafka Topics
+name: Deploy Kafka Topics to Aiven
 
 on:
   push:
