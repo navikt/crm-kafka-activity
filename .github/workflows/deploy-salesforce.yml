@@ -1,0 +1,14 @@
+name: Deploy Push Topics to Salesforce
+
+on:
+  push:
+    paths:
+      - ".push-topics/**"
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Publish Push Topics
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
