@@ -21,10 +21,11 @@ See [example-data](/example-data) for the data that's being published.
    1. Publish Kafka Topics
       - Make sure [naisdevice](https://doc.nais.io/device/install/) is setup correctly on your computer
       - Make sure naisdevice icon is green
+      - Make sure you're in the correct context using `kubectl config use-context [ENV]`, with env `dev-gcp` or `prod-gcp`
       - Make sure you're logged into Google Cloud locally using `gcloud auth login`
       - Run `kubectl apply -f .kafka-topics/topic.yml` for each new topic
 1. Add a new config file in [/.nais](/.nais) for both `prod` and `dev`
-1. Edit [deploy.yml](/.github/.workflows/deploy.yml)
+1. Edit [deploy-nais.yml](/.github/.workflows/deploy-nais.yml)
    - Add the new nais config file name to the `namespace` array in both `deploy-dev` and `deploy-prod`
    - Make sure to **not** include `dev-` and `prod-` in the `namespace` array
 
