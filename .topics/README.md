@@ -5,8 +5,8 @@ To define a new topic that will later be published to, you must first creat a to
 ## Creating Push Topics in Salesforce
 
 1. Define new Push Topics in [push-topics](/.topics/push-topics)
-1. Push changes to `main`
-1. Publish Push Topics by running Apex code in both Salesforce [production](https://navdialog.lightning.force.com) and [preproduction](https://navdialog--preprod.lightning.force.com)
+1. Push changes to `main` (you can also create topics in Kafka and push at the same time)
+1. Verify that [deploy-push-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-push-topics.yml) ran successfully
 
 ## Creating Topics in Kafka
 

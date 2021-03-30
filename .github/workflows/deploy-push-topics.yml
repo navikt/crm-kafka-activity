@@ -14,12 +14,15 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       emptyMatrix: ${{ steps.set-matrix.outputs.emptyMatrix }}
     steps:
+      # Checkout
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-      - id: set-matrix
+      # set matrix
+      - name: Set Matrix
+        id: set-matrix
         run: |
           MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
           echo Matrix is $MATRIX
@@ -43,7 +46,7 @@ jobs:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
       # Checkout
-      - name: Authorize SFDX
+      - name: Checkout code
         uses: actions/checkout@v2
 
       # Install SFDX
@@ -61,4 +64,4 @@ jobs:
       - name: Upsert Push Topic
         run: |
           echo ${{ matrix.topic }}
-          # sfdx force:apex:execute -u testusername@salesforce.org -f .topics/push-topics/${{ matrix.topic }}/dev-vars.yml
+          sfdx force:apex:execute -u testusername@salesforce.org -f .topics/push-topics/${{ matrix.topic }}
