@@ -62,6 +62,7 @@ jobs:
 
       # Upsert Push Topic
       - name: Upsert Push Topic
+        if: {{ matrix.topic }} != 'template.cls'
         run: |
           echo ${{ matrix.topic }}
           sfdx force:apex:execute -u testusername@salesforce.org -f .topics/push-topics/${{ matrix.topic }}
