@@ -85,8 +85,6 @@ object EMP {
                 val map = ObjectMapper().readValue<MutableMap<Any, String>>(eventKey)
                 val replayId = map.get("replayId")
 
-                log.info { "replayId: $replayId" }
-
                 val producer = KafkaProducer<String, String>(kafkaProducerConfig)
                 producer.use { p ->
                     p.send(ProducerRecord(topic, replayId, sobject))
