@@ -7,8 +7,57 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Publish Push Topics
+  setup-matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      emptyMatrix: ${{ steps.set-matrix.outputs.emptyMatrix }}
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - id: set-matrix
+        run: |
+          MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
+          echo Matrix is $MATRIX
+          if [[  -z "${MATRIX// }" ]]; then
+            echo "Empty matrix"
+            echo "::set-output name=emptyMatrix::true"
+            echo "::set-output name=matrix::[]"
+          else
+            JSON=$(jq -c -n --arg v $MATRIX '{"topic": $v|split(",")}')
+            echo "matrix: $JSON"
+            echo "::set-output name=matrix::$JSON"
+            echo "::set-output name=emptyMatrix::false"
+          fi
+  deploy-to-dev:
+    name: Publish Push Topics to Dev
+    needs: setup-matrix
+    runs-on: ubuntu-latest
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    strategy:
+      fail-fast: true
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+    steps:
+      # Checkout
+      - name: Authorize SFDX
+      - uses: actions/checkout@v2
+
+      # Install SFDX
+      - name: Authorize SFDX
+        uses: sfdx-actions/setup-sfdx@v1
+
+      # Authenticate preprod
+      - name: Authenticate preprod
+        run: |
+          echo ${{ secrets.PREPROD_SFDX_URL }} > ./PREPROD_SFDX_URL.txt
+          sfdx auth:sfdxurl:store -f ./PREPROD_SFDX_URL.txt -a preprod -s
+          rm -f ./PREPROD_SFDX_URL.txt
+
+      # Upsert Push Topic
+      - name: Upsert Push Topic
+      run: |
+        echo ${{ matrix.topic }}
+        # sfdx force:apex:execute -u testusername@salesforce.org -f .topics/push-topics/${{ matrix.topic }}/dev-vars.yml
