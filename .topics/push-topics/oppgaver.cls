@@ -10,7 +10,7 @@ List<String> FIELDS = new List<String> { 'Id', 'WhatId', 'WhoId', 'Subject', 'Ac
 
 List<PushTopic> oldVersion = [SELECT Id FROM PushTopic WHERE Name = : PUSH_TOPIC_NAME LIMIT 1];
 
-PushTopic pushTopic = new PushTopic(ApiVersion = 47.0, NotifyForOperationCreate = true, NotifyForOperationUpdate = true, NotifyForOperationUndelete = true, NotifyForOperationDelete = true, IsActive = true, Description = 'Created from https://github.com/navikt/crm-kafka-activity. ONLY update the SOQL query in that repo.');
+PushTopic pushTopic = new PushTopic(ApiVersion = 47.0, NotifyForOperationCreate = true, NotifyForOperationUpdate = true, NotifyForOperationUndelete = true, NotifyForOperationDelete = true, IsActive = true, Description = 'DO NOT UPDATE. SOQL is maintained in https://github.com/navikt/crm-kafka-activity.');
 pushTopic.Name = PUSH_TOPIC_NAME;
 pushTopic.Id = oldVersion.size() > 0 ? oldVersion[0].Id : null;
 pushTopic.Query = 'SELECT ' + String.join(FIELDS, ', ') + ' FROM ' + SOBJECT_NAME;
