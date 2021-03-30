@@ -6,9 +6,9 @@ on:
     paths: .topics/kafka-topics/**
 
 jobs:
-  # -----------------------------
-  # ------- setup matrix --------
-  # -----------------------------
+  # ----------------------------- #
+  # ------- setup matrix -------- #
+  # ----------------------------- #
   setup-matrix:
     name: Setup Matrix
     runs-on: ubuntu-latest
@@ -38,9 +38,9 @@ jobs:
             echo "::set-output name=emptyMatrix::false"
           fi
 
-  # -----------------------------
-  # ------- deploy preprod ------
-  # -----------------------------
+  # ----------------------------- #
+  # ------- deploy preprod ------ #
+  # ----------------------------- #
   deploy-dev:
     name: Deploy Dev
     needs: setup-matrix
@@ -64,9 +64,9 @@ jobs:
           VARS: .topics/kafka-topics/${{ matrix.topic }}/dev-vars.yml
           PRINT_PAYLOAD: true
 
-  # -----------------------------
-  # ----- deploy production -----
-  # -----------------------------
+  # ----------------------------- #
+  # ----- deploy production ----- #
+  # ----------------------------- #
   deploy-prod:
     name: Deploy Production
     needs: setup-matrix

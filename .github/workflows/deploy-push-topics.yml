@@ -8,9 +8,9 @@ on:
       - "!.topics/push-topics/template.cls"
 
 jobs:
-  # -----------------------------
-  # ------- setup matrix --------
-  # -----------------------------
+  # ----------------------------- #
+  # ------- setup matrix -------- #
+  # ----------------------------- #
   setup-matrix:
     name: Setup Matrix
     runs-on: ubuntu-latest
@@ -41,9 +41,9 @@ jobs:
             echo "::set-output name=emptyMatrix::false"
           fi
 
-  # -----------------------------
-  # ------- deploy preprod ------
-  # -----------------------------
+  # ----------------------------- #
+  # ------- deploy preprod ------ #
+  # ----------------------------- #
   deploy-preprod:
     name: Deploy Preprod
     needs: setup-matrix
@@ -75,9 +75,9 @@ jobs:
           echo ${{ matrix.topic }}
           sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }}
 
-  # -----------------------------
-  # ----- deploy production -----
-  # -----------------------------
+  # ----------------------------- #
+  # ----- deploy production ----- #
+  # ----------------------------- #
   deploy-prod:
     name: Deploy Production
     needs: setup-matrix
