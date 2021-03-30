@@ -13,8 +13,19 @@ Before the new topic can have data published to it, the topics must be created s
 1. Make sure the folder contains `dev.yml` or `prod.yml` (or either of them for testing purposes)
 1. Edit these values inside `dev.yml` and `prod.yml`
    - `KAFKA_TOPIC`
-     - [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`)
+     - [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`
    - `EMP_URL`
      - Either `https://salesforce.com` or `https://test.salesforce.com`
    - `EMP_TOPIC`
      - [.topics/push-topics](/.topics/push-topics) → [PushTopicFile] → `PUSH_TOPIC_NAME`
+1. Push changes to `main`
+1. Verify that [deploy-nais.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-nais.yml) ran successfully
+1. Verify that the topics are ready in dev/prod clusters
+   - `kubectl config use-context dev-gcp && kubectl get pods --namespace=team-dialog`
+   - `kubectl config use-context prod-gcp && kubectl get pods --namespace=team-dialog`
+
+### Getting an error on the last commands?
+
+- Make sure [naisdevice](https://doc.nais.io/device/install/) is setup correctly on your computer
+- Make sure naisdevice (app) icon is green
+- Make sure you're logged into GCP using `glcoud auth login`
