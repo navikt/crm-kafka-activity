@@ -4,7 +4,6 @@ on:
   push:
     paths:
       - ".push-topics/**"
-  workflow_dispatch:
 
 jobs:
   setup-matrix:
@@ -43,7 +42,7 @@ jobs:
     steps:
       # Checkout
       - name: Authorize SFDX
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       # Install SFDX
       - name: Authorize SFDX
