@@ -3,11 +3,11 @@
 Publishes Salesforce activity to the Kafka platform in GCP. The following Kafka topics are currently being produced by this repo:
 
 - crm-kafka-activity-oppgaver
-- crm-kafka-activity-moter
-<!-- - crm-kafka-activity-kurs
-- crm-kafka-activity-interne-kontaktpersoner
-- crm-kafka-activity-bedriftsavtaler
-- crm-kafka-activity-kampanje -->
+  <!-- - crm-kafka-activity-moter -->
+  <!-- - crm-kafka-activity-kurs -->
+  <!-- - crm-kafka-activity-interne-kontaktpersoner -->
+  <!-- - crm-kafka-activity-bedriftsavtaler -->
+  <!-- - crm-kafka-activity-kampanje -->
 
 See [example-data](/example-data) for the data that's being published.
 
