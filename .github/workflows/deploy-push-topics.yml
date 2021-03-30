@@ -2,8 +2,8 @@ name: Deploy Push Topics to Salesforce
 
 on:
   push:
-    paths:
-      - ".push-topics/**"
+    branches: main
+    paths: .topics/push-topics/**
 
 jobs:
   setup-matrix:
