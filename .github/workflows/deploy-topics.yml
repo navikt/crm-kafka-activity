@@ -12,11 +12,13 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       emptyMatrix: ${{ steps.set-matrix.outputs.emptyMatrix }}
     steps:
+      # Checkout
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
+      # set matrix
       - id: set-matrix
         run: |
           MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/kafka-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
@@ -32,6 +34,7 @@ jobs:
             echo "::set-output name=emptyMatrix::false"
           fi
   deploy:
+    name: Setup Matrix
     needs: setup-matrix
     runs-on: ubuntu-latest
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'

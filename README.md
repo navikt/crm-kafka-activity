@@ -23,6 +23,6 @@ See [.topics](/.topics) folder.
 1. Add username and password with the following format:
 
 ```
-EMP_USERNAME=salesforce_service_user;
-EMP_PASSWORD=password+securitytoken;
+EMP_USERNAME=salesforce_service_user
+EMP_PASSWORD=password+securitytoken
 ```

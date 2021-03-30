@@ -9,6 +9,7 @@ on:
 
 jobs:
   setup-matrix:
+    name: Setup Matrix
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -37,7 +38,7 @@ jobs:
             echo "::set-output name=emptyMatrix::false"
           fi
   deploy-to-dev:
-    name: Publish Push Topics to Dev
+    name: Publish Topic in Dev
     needs: setup-matrix
     runs-on: ubuntu-latest
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'
