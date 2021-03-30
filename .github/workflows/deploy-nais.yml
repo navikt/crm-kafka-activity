@@ -10,6 +10,7 @@ on:
   push:
     paths:
       - ".nais/**"
+      - "!.nais/README.md"
       - "src/**"
       - "build.gradle"
       - "Dockerfile"
@@ -50,7 +51,7 @@ jobs:
   # ----------------------------- #
 
   build:
-    name: Build and push Docker container
+    name: Build & push Docker Image
     needs: test
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
