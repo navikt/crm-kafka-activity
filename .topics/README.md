@@ -26,9 +26,4 @@ To define a new topic that will later be published to, you must first creat a to
 
 # Publishing to a New Topic
 
-Before the new topic can have data published to it, the topics must be created successfully first (see [Defining a New Topic](#defining-a-new-topic)). Then do the following:
-
-1. Add a new config file in [.nais](/.nais) for either `prod` or `dev`, or both
-1. Edit [deploy-nais.yml](/.github/.workflows/deploy-nais.yml)
-   - Add the new nais config file name to the `namespace` array in either `deploy-dev` or `deploy-prod`, or both
-   - Make sure to **not** include `-dev` and `-prod` in the `namespace` array, just the base name
+See [.nais](/.nais) to start publishing to a topic after successful topic creation.

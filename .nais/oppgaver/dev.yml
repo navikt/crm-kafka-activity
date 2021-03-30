@@ -54,6 +54,6 @@ spec:
     - name: KAFKA_TOPIC
       value: team-dialog.crm-kafka-activity-oppgaver # ! change this value for new topics
     - name: EMP_URL
-      value: https://test.salesforce.com # https://salesforce.com or https://test.salesforce.com
+      value: https://test.salesforce.com # ! https://salesforce.com or https://test.salesforce.com
     - name: EMP_TOPIC
       value: kafka-oppgaver # ! change this value for new topics

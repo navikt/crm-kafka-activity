@@ -11,9 +11,13 @@ Publishes Salesforce activity to the Kafka platform in GCP. The following Kafka 
 
 See [example-data](/example-data) for the data that's being published.
 
-# Adding Topics
+# Defining Topics
 
-See [.topics](/.topics) folder.
+See [.topics](/.topics) to define new topics, a
+
+# Publishing to Topics
+
+See [.nais](/.nais) to start publishing to a topic (remember to create topics first, see [Defining Topics](#defining-topics))
 
 # Updating Secrets in GCP
 
