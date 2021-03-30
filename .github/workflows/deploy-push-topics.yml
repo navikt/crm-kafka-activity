@@ -8,6 +8,9 @@ on:
       - "!.topics/push-topics/template.cls"
 
 jobs:
+  # -----------------------------
+  # ------- setup matrix --------
+  # -----------------------------
   setup-matrix:
     name: Setup Matrix
     runs-on: ubuntu-latest
@@ -37,8 +40,12 @@ jobs:
             echo "::set-output name=matrix::$JSON"
             echo "::set-output name=emptyMatrix::false"
           fi
-  deploy-to-preprod:
-    name: Publish Preprod
+
+  # -----------------------------
+  # ------- deploy preprod ------
+  # -----------------------------
+  deploy-preprod:
+    name: Deploy Preprod
     needs: setup-matrix
     runs-on: ubuntu-latest
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'
@@ -68,8 +75,11 @@ jobs:
           echo ${{ matrix.topic }}
           sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }}
 
-  deploy-to-prod:
-    name: Publish Production
+  # -----------------------------
+  # ----- deploy production -----
+  # -----------------------------
+  deploy-prod:
+    name: Deploy Production
     needs: setup-matrix
     runs-on: ubuntu-latest
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'

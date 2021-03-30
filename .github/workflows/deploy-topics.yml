@@ -6,7 +6,11 @@ on:
     paths: .topics/kafka-topics/**
 
 jobs:
+  # -----------------------------
+  # ------- setup matrix --------
+  # -----------------------------
   setup-matrix:
+    name: Setup Matrix
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -33,8 +37,12 @@ jobs:
             echo "::set-output name=matrix::$JSON"
             echo "::set-output name=emptyMatrix::false"
           fi
-  deploy:
-    name: Setup Matrix
+
+  # -----------------------------
+  # ------- deploy preprod ------
+  # -----------------------------
+  deploy-dev:
+    name: Deploy Dev
     needs: setup-matrix
     runs-on: ubuntu-latest
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'
@@ -55,6 +63,22 @@ jobs:
           RESOURCE: .topics/kafka-topics/${{ matrix.topic }}/topic.yml
           VARS: .topics/kafka-topics/${{ matrix.topic }}/dev-vars.yml
           PRINT_PAYLOAD: true
+
+  # -----------------------------
+  # ----- deploy production -----
+  # -----------------------------
+  deploy-prod:
+    name: Deploy Production
+    needs: setup-matrix
+    runs-on: ubuntu-latest
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    strategy:
+      fail-fast: true
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+    steps:
+      # checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       # deploy to prod gcp
       - name: deploy to prod
