@@ -11,6 +11,7 @@ jobs:
   # ----------------------------- #
   # ------- setup matrix -------- #
   # ----------------------------- #
+
   setup-matrix:
     name: Setup Matrix
     runs-on: ubuntu-latest
@@ -44,6 +45,7 @@ jobs:
   # ----------------------------- #
   # ------- deploy preprod ------ #
   # ----------------------------- #
+
   deploy-preprod:
     name: Deploy Preprod
     needs: setup-matrix
@@ -78,6 +80,7 @@ jobs:
   # ----------------------------- #
   # ----- deploy production ----- #
   # ----------------------------- #
+
   deploy-prod:
     name: Deploy Production
     needs: setup-matrix
