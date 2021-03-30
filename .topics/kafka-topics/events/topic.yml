@@ -1,0 +1,17 @@
+apiVersion: kafka.nais.io/v1
+kind: Topic
+metadata:
+  name: crm-kafka-activity-events # ! only field that should be changed
+  namespace: team-dialog
+  labels:
+    team: team-dialog
+spec:
+  pool: {{pool}}
+  config:
+  {{#each config as |value key|}}
+     {{key}}: {{value}}
+  {{/each}}
+  acl:
+    - team: team-dialog
+      application: crm-kafka-activity
+      access: readwrite
