@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - ".nais/**"
       - "src/**"
       - "build.gradle"
       - "Dockerfile"
@@ -19,6 +18,10 @@ env:
   IMAGE: docker.pkg.github.com/${{ github.repository }}/crm-kafka-activity:${{ github.sha }}
   ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
 jobs:
+  # ----------------------------- #
+  # --------- run tests --------- #
+  # ----------------------------- #
+
   test:
     name: Run tests
     runs-on: ubuntu-latest
@@ -41,6 +44,11 @@ jobs:
             ${{ runner.os }}-gradle-wrapper-
       - name: Build and run tests
         run: ./gradlew clean build --info
+
+  # ----------------------------- #
+  # ----------- build ----------- #
+  # ----------------------------- #
+
   build:
     name: Build and push Docker container
     needs: test
@@ -72,32 +80,76 @@ jobs:
           docker build . --pull --tag ${IMAGE}
           echo "$GITHUB_TOKEN" | docker login --username "$GITHUB_REPOSITORY" --password-stdin https://docker.pkg.github.com
           docker push ${IMAGE}
-  deploy-dev:
-    name: Deploy to dev fss
-    needs: build
+
+  # ----------------------------- #
+  # ------- setup matrix -------- #
+  # ----------------------------- #
+
+  setup-matrix:
+    name: Setup Matrix
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      emptyMatrix: ${{ steps.set-matrix.outputs.emptyMatrix }}
+    steps:
+      # Checkout
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # set matrix
+      - id: set-matrix
+        run: |
+          MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
+          echo Matrix is $MATRIX
+          if [[  -z "${MATRIX// }" ]]; then
+            echo "Empty matrix"
+            echo "::set-output name=emptyMatrix::true"
+            echo "::set-output name=matrix::[]"
+          else
+            JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
+            echo "matrix: $JSON"
+            echo "::set-output name=matrix::$JSON"
+            echo "::set-output name=emptyMatrix::false"
+          fi
+
+  # ----------------------------- #
+  # -------- deploy dev --------- #
+  # ----------------------------- #
+
+  deploy-dev:
+    name: Deploy to dev-gcp
+    needs: [build, setup-matrix]
+    runs-on: ubuntu-latest
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
     strategy:
-      matrix:
-        namespace: [oppgaver]
+      fail-fast: true
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v1
       - uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: .nais/${{ matrix.namespace }}-dev.yml
-#  deploy-prod:
-#    name: Deploy to NAIS prod
-#    needs: build #deploy-dev
-#    if: github.ref == 'refs/heads/main'
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        namespace: [oppgaver]
-#    steps:
-#      - uses: actions/checkout@v1
-#      - uses: nais/deploy/actions/deploy@v1
-#        env:
-#          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-#          CLUSTER: prod-gcp
-#          RESOURCE: .nais/${{ matrix.namespace }}-prod.yml
+          RESOURCE: .nais/${{ matrix.resource }}/dev.yml
+
+  # ----------------------------- #
+  # -------- deploy prod -------- #
+  # ----------------------------- #
+
+  # deploy-prod:
+  #   name: Deploy to prod-gcp
+  #   needs: [build, setup-matrix]
+  #   runs-on: ubuntu-latest
+  #   if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+  #   strategy:
+  #     fail-fast: true
+  #     matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - uses: nais/deploy/actions/deploy@v1
+  #       env:
+  #         APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+  #         CLUSTER: prod-gcp
+  #         RESOURCE: .nais/${{ matrix.resource }}/prod.yml
