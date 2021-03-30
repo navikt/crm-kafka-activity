@@ -76,6 +76,7 @@ jobs:
         run: |
           echo ${{ matrix.topic }}
           sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }}
+          # TODO add error if execute fails
 
   # ----------------------------- #
   # ----- deploy production ----- #
