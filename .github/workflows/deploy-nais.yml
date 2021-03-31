@@ -102,18 +102,40 @@ jobs:
       # set matrix
       - id: set-matrix
         run: |
-          MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
-          echo Matrix is $MATRIX
+          echo Checking which configurations inside .nais/ were changed...
+
+          MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .nais/ | cut -d '/' -f 2 | sort -u | paste -d',' -s )
+
           if [[  -z "${MATRIX// }" ]]; then
-            echo "Empty matrix"
+            echo "No changed configuration in .nais/"
             echo "::set-output name=emptyMatrix::true"
             echo "::set-output name=matrix::[]"
           else
-            JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
-            echo "matrix: $JSON"
+            JSON=$(jq -c -n --arg v $MATRIX '{"topic": $v|split(",")}')
+            echo "Apps to re-deploy: $MATRIX"
             echo "::set-output name=matrix::$JSON"
             echo "::set-output name=emptyMatrix::false"
           fi
+
+          echo Checking if Dockerfile, /src or build.gradle was changed as well. Then, all apps will be re-deployed...
+          data=$(git diff --name-only HEAD^ HEAD)
+          for i in $data; do
+
+              row=$(echo ${i%%/} | cut -d '/' -f 1)
+              
+              # if changed file is Dockerfile, inside /src or build.gradle
+              if [  "$row" = "Dockerfile" ] || [  "$row" = "src" ] || [  "$row" = "build.gradle" ]; then
+                  echo $row was changed, so all apps are re-deployed
+                  
+                  # cause all apps to re-deploy
+                  MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
+                  echo "Apps to re-deploy: $MATRIX"
+
+                  JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
+                  echo "::set-output name=matrix::$JSON"
+                  echo "::set-output name=emptyMatrix::false"
+              fi
+          done
 
   # ----------------------------- #
   # -------- deploy dev --------- #
