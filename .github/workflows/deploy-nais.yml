@@ -112,7 +112,7 @@ jobs:
             echo "::set-output name=emptyMatrix::true"
             echo "::set-output name=matrix::[]"
           else
-            JSON=$(jq -c -n --arg v $MATRIX '{"topic": $v|split(",")}')
+            JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
             echo "Apps to re-deploy: $MATRIX"
             echo "::set-output name=matrix::$JSON"
             echo "::set-output name=emptyMatrix::false"
