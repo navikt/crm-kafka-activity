@@ -7,7 +7,7 @@ To define a new topic that will later be published to, you must first creat a to
 1. Duplicate `template.cls` in [push-topics](/.topics/push-topics)
 1. Modify the following fields
    - `PUSH_TOPIC_NAME`
-     - Is later used in `EMP_TOPIC` in [.nais](/.nais) config
+     - Is later used as `EMP_TOPIC` in [.nais](/.nais) config
    - `SOBJECT_NAME`
      - SObject API Name
    - `FIELDS`
@@ -22,7 +22,7 @@ To define a new topic that will later be published to, you must first creat a to
 1. Copy and paste an existing folder in [kafka-topics](/.topics/kafka-topics)
 1. Change the following inside `topic.yml`
    - `metadata`.`name`
-     - Kafka Topic used in other apps
+     - Kafka Topic name used in other apps
    - `acl`.`application`
      - Should be same as above, so that the accompanying app matches the Kafka Topics
 1. Push changes to `main`
