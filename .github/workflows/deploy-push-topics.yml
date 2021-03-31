@@ -74,7 +74,11 @@ jobs:
         if: matrix.topic != 'template.cls'
         run: |
           echo ${{ matrix.topic }}
-          sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }}
+          sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }} --json | tee output
+
+          if [ $(cat output | jq '.result.success') == "false" ]; then
+            exit 125
+          fi
           # TODO add error if execute fails
 
   # ----------------------------- #
@@ -109,4 +113,8 @@ jobs:
         if: matrix.topic != 'template.cls'
         run: |
           echo ${{ matrix.topic }}
-          sfdx force:apex:execute -u prod -f .topics/push-topics/${{ matrix.topic }}
+          sfdx force:apex:execute -u prod -f .topics/push-topics/${{ matrix.topic }} --json | tee output
+
+          if [ $(cat output | jq '.result.success') == "false" ]; then
+            exit 125
+          fi
