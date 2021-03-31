@@ -16,7 +16,7 @@ pushTopic.Id = oldVersion.size() > 0 ? oldVersion[0].Id : null;
 pushTopic.Query =   ' SELECT ' + 
                     String.join(FIELDS, ', ') + 
                     ' FROM ' + SOBJECT_NAME + 
-                    String.isBlank(PARAMETERS) ? '' : ' WHERE ' + PARAMETERS;
+                    (String.isBlank(PARAMETERS) ? '' : ' WHERE ' + PARAMETERS);
 
 
 upsert pushTopic;
