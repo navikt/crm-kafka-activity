@@ -1,0 +1,59 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: crm-kafka-activity
+  namespace: team-dialog
+  labels:
+    team: team-dialog
+spec:
+  webproxy: true
+  image: "{{ image }}"
+  port: 8080
+  accessPolicy:
+    outbound:
+      external:
+        - host: salesforce.com
+        - host: navdialog.my.salesforce.com
+        - host: test.salesforce.com
+        - host: navdialog--preprod.my.salesforce.com
+  replicas:
+    min: 1
+    max: 1
+  liveness:
+    path: /isAlive
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  readiness:
+    path: /isReady
+    initialDelay: 5
+    periodSeconds: 5
+    failureThreshold: 30
+  prometheus:
+    enabled: false
+    path: /metrics
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1024Mi
+    requests:
+      cpu: 100m
+      memory: 512Mi
+  vault:
+    enabled: false
+  kafka:
+    pool: nav-dev # enum of nav-dev, nav-prod
+  filesFrom:
+    - secret: emp-login
+      mountPath: /var/run/secrets/my-secret
+  envFrom:
+    - secret: emp-login
+  env:
+    - name: KAFKA_CLIENTID
+      value: crm-kafka-activity
+    - name: KAFKA_TOPIC
+      value: team-dialog.crm-kafka-activity-events # ! change this value for new topics
+    - name: EMP_URL
+      value: https://test.salesforce.com # ! https://salesforce.com or https://test.salesforce.com
+    - name: EMP_TOPIC
+      value: kafka-events # ! change this value for new topics
