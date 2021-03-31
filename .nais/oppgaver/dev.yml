@@ -1,7 +1,7 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: crm-kafka-activity
+  name: crm-kafka-activity-oppgaver # ! change this value for new topics
   namespace: team-dialog
   labels:
     team: team-dialog
@@ -50,7 +50,7 @@ spec:
     - secret: emp-login
   env:
     - name: KAFKA_CLIENTID
-      value: crm-kafka-activity
+      value: crm-kafka-activity-oppgaver # ! change this value for new topics
     - name: KAFKA_TOPIC
       value: team-dialog.crm-kafka-activity-oppgaver # ! change this value for new topics
     - name: EMP_URL
