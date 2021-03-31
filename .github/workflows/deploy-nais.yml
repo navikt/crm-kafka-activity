@@ -100,7 +100,8 @@ jobs:
           fetch-depth: 0
 
       # set matrix
-      - id: set-matrix
+      - name: Set Matrix
+        id: set-matrix
         run: |
           echo Checking which configurations inside .nais/ were changed...
 
