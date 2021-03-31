@@ -18,5 +18,4 @@ pushTopic.Query =   ' SELECT ' +
                     ' FROM ' + SOBJECT_NAME + 
                     (String.isBlank(PARAMETERS) ? '' : ' WHERE ' + PARAMETERS);
 
-
 upsert pushTopic;
