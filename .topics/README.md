@@ -7,8 +7,13 @@ To define a new topic that will later be published to, you must first creat a to
 1. Duplicate `template.cls` in [push-topics](/.topics/push-topics)
 1. Modify the following fields
    - `PUSH_TOPIC_NAME`
+     - Is later used in `EMP_TOPIC` in [.nais](/.nais) config
    - `SOBJECT_NAME`
+     - SObject API Name
    - `FIELDS`
+     - List of fields to query
+   - `PARAMETERS`
+     - What should appear after a `WHERE` clause in a SOQL Query
 1. Push changes to `main` (you can also create topics in Kafka and push at the same time)
 1. Verify that [deploy-push-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-push-topics.yml) ran successfully
 
