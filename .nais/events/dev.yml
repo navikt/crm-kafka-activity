@@ -1,11 +1,20 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: crm-kafka-activity-events # ! change this value for new topics
+  name: crm-kafka-activity-events # ! Must be the same as the Kafka Topic name
   namespace: team-dialog
   labels:
     team: team-dialog
 spec:
+  env:
+    - name: KAFKA_CLIENTID
+      value: crm-kafka-activity-events # ! Same as above
+    - name: KAFKA_TOPIC
+      value: team-dialog.crm-kafka-activity-events # ! Namespace + same as above
+    - name: IS_PRODUCTION
+      value: false # ! Must coincide with dev.yml or prod.yml
+    - name: EMP_TOPIC
+      value: kafka-events # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
   webproxy: true
   image: "{{ image }}"
   port: 8080
@@ -48,12 +57,3 @@ spec:
       mountPath: /var/run/secrets/my-secret
   envFrom:
     - secret: emp-login
-  env:
-    - name: KAFKA_CLIENTID
-      value: crm-kafka-activity-events # ! change this value for new topics
-    - name: KAFKA_TOPIC
-      value: team-dialog.crm-kafka-activity-events # ! change this value for new topics
-    - name: EMP_URL
-      value: https://test.salesforce.com # ! https://salesforce.com or https://test.salesforce.com
-    - name: EMP_TOPIC
-      value: kafka-events # ! change this value for new topics
