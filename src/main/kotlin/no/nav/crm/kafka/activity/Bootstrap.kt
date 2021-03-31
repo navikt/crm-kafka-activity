@@ -10,10 +10,12 @@ import no.nav.crm.kafka.activity.nais.ShutdownHook
 import no.nav.crm.kafka.activity.nais.enableNAISAPI
 
 // Environment dependencies injected in pod by nais kafka solution
-val EMP_URL = System.getenv("EMP_URL")
 val EMP_USERNAME = System.getenv("EMP_USERNAME")
 val EMP_PASSWORD = System.getenv("EMP_PASSWORD")
-val EMP_TOPIC = if (System.getenv("EMP_ENV") == "prod") "https://salesforce.com" else "https://test.salesforce.com"
+val EMP_TOPIC = System.getenv("EMP_TOPIC")
+val EMP_URL = if (System.getenv("EMP_ENV") == "prod") "https://salesforce.com"
+                else if (System.getenv("EMP_ENV") == "dev") "https://test.salesforce.com"
+                else ""
 
 private val log = KotlinLogging.logger { }
 
