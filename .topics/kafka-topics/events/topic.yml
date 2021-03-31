@@ -13,5 +13,5 @@ spec:
   {{/each}}
   acl:
     - team: team-dialog
-      application: crm-kafka-activity
+      application: crm-kafka-activity-events # ! only field that should be changed
       access: readwrite
