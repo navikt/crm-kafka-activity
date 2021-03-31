@@ -9,17 +9,17 @@ Before the new topic can have data published to it, the topics must be created s
 
 ## Define nais Configurations
 
-1. Create (or copy & paste) a folder for the new topic (folder name doesn't matter, but the same name as the topic is preferred)
-1. Make sure the folder contains `dev.yml` or `prod.yml` (or either of them for testing purposes)
+1. Copy and paste a folder for the new topic
+1. Make sure the folder contains `dev.yml` and `prod.yml` (or either of them for testing purposes)
 1. Edit these values inside `dev.yml` and `prod.yml`
    - `metadata`.`name`
      - Same as [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`
    - `KAFKA_CLIENTID`
      - Same as bove
    - `KAFKA_TOPIC`
-     - Same as bove
-   - `EMP_URL`
-     - Either `https://salesforce.com` or `https://test.salesforce.com`
+     - Namespace + Same as bove
+   - `EMP_ENV`
+     - Either `prod` or `dev`
    - `EMP_TOPIC`
      - [.topics/push-topics](/.topics/push-topics) → [PushTopicFile] → `PUSH_TOPIC_NAME`
 1. Push changes to `main`
