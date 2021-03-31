@@ -12,8 +12,12 @@ Before the new topic can have data published to it, the topics must be created s
 1. Create (or copy & paste) a folder for the new topic (folder name doesn't matter, but the same name as the topic is preferred)
 1. Make sure the folder contains `dev.yml` or `prod.yml` (or either of them for testing purposes)
 1. Edit these values inside `dev.yml` and `prod.yml`
+   - `metadata`.`name`
+     - Same as [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`
+   - `KAFKA_CLIENTID`
+     - Same as bove
    - `KAFKA_TOPIC`
-     - [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`
+     - Same as bove
    - `EMP_URL`
      - Either `https://salesforce.com` or `https://test.salesforce.com`
    - `EMP_TOPIC`
