@@ -11,8 +11,8 @@ spec:
       value: crm-kafka-activity-oppgaver # ! Same as above
     - name: KAFKA_TOPIC
       value: team-dialog.crm-kafka-activity-oppgaver # ! Namespace + same as above
-    - name: IS_PRODUCTION
-      value: false # ! Must coincide with dev.yml or prod.yml
+    - name: EMP_ENV
+      value: dev # ! prod or dev
     - name: EMP_TOPIC
       value: kafka-oppgaver # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
   webproxy: true
