@@ -4,14 +4,22 @@ To define a new topic that will later be published to, you must first creat a to
 
 ## Creating Push Topics in Salesforce
 
-1. Define new Push Topics in [push-topics](/.topics/push-topics)
+1. Duplicate `template.cls` in [push-topics](/.topics/push-topics)
+1. Modify the following fields
+   - `PUSH_TOPIC_NAME`
+   - `SOBJECT_NAME`
+   - `FIELDS`
 1. Push changes to `main` (you can also create topics in Kafka and push at the same time)
 1. Verify that [deploy-push-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-push-topics.yml) ran successfully
 
 ## Creating Topics in Kafka
 
 1. Copy and paste an existing folder in [kafka-topics](/.topics/kafka-topics)
-1. Change the topic name inside `topic.yml`
+1. Change the following inside `topic.yml`
+   - `metadata`.`name`
+     - Kafka Topic used in other apps
+   - `acl`.`application`
+     - Should be same as above, so that the accompanying app matches the Kafka Topics
 1. Push changes to `main`
 1. Verify that [deploy-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-topics.yml) ran successfully
 1. Verify that the topics are ready in dev/prod clusters
