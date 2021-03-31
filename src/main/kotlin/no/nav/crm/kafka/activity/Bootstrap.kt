@@ -13,7 +13,7 @@ import no.nav.crm.kafka.activity.nais.enableNAISAPI
 val EMP_URL = System.getenv("EMP_URL")
 val EMP_USERNAME = System.getenv("EMP_USERNAME")
 val EMP_PASSWORD = System.getenv("EMP_PASSWORD")
-val EMP_TOPIC = if (System.getenv("EMP_TOPIC")) "https://salesforce.com" ? else "https://test.salesforce.com"
+val EMP_TOPIC = if (System.getenv("EMP_TOPIC") == "true") "https://salesforce.com" else "https://test.salesforce.com"
 
 private val log = KotlinLogging.logger { }
 
