@@ -79,7 +79,6 @@ jobs:
           if [ $(cat output | jq '.result.success') == "false" ]; then
             exit 125
           fi
-          # TODO add error if execute fails
 
   # ----------------------------- #
   # ----- deploy production ----- #
