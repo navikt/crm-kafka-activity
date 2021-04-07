@@ -19,7 +19,7 @@ Pushing to any branch that is **not** the `main` branch will cause `navdialog--p
 
 # Run / Build Project Locally
 
-You can build the project locally to verify that the code works as intended. However, you cannot run the code locally as it is written currently because the code requires nais api's for both secrets and Kafka. For configuration changes only, it is recommended to push code to your branch to test in `navdialog--preprod` and `gcp-dev`. What you can run locally, though, is the EMP Connector from Salesforce to subsribe to a Push Topic.
+You can build the project locally to verify that the code works as intended. However, you cannot run the code locally as it is written currently because the code requires nais api's for both secrets and Kafka. For configuration changes only, it is recommended to push code to your branch to test in `navdialog--preprod` and `gcp-dev`. What you can run locally, though, is the EMP Connector from Salesforce to subscribe to a Push Topic.
 
 ## Setup Local Tools
 
