@@ -15,7 +15,7 @@ Framework to publish activity (data) from Salesforce to Kafka in GCP. Easily edi
 
 To create new Kafka streams or update existing streams with new data or fields, make your changes to a new branch. See [Defining Topics](#defining-topics) and [Publishing to Topics](#publishing-to-topics) how to make changes to configurations.
 
-Pushing to any branch that is **not** `main` branch will cause `navdialog--preprod` and `gcp-dev` to update only. When pushing changes to `main` branch, changes will be applied to both prod and dev (`navdialog`, `navdialog--preprod`, `gcp-prod` and `gcp-dev`).
+Pushing to any branch that is **not** the `main` branch will cause `navdialog--preprod` and `gcp-dev` to update only. When pushing changes to the `main` branch, changes will be applied to both prod and dev (`navdialog`, `navdialog--preprod`, `gcp-prod` and `gcp-dev`).
 
 # Run / Build Project Locally
 
