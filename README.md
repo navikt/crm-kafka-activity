@@ -61,7 +61,7 @@ Only the following changes will cause automatic deployment of nais pods:
 
 **NOTE!** Re-deployment of apps means every record (for a given Push Topic) that is edited during the last 72 hours will be re-added into the Kafka stream. The `key` values is the same, so it might create duplicate rows. But because each change on a record is added to the Kafka queue anyway, it shouldn't be a problem for logic.
 
-**<ins>If you can avoid re-deploying all pods, please do so.</ins>**
+**<ins>Avoid re-deploying all pods unless absolutely necessary.</ins>**
 
 # Updating Secrets in GCP
 
