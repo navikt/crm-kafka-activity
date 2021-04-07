@@ -3,7 +3,9 @@ name: Deploy Kafka Topics to Aiven
 on:
   workflow_dispatch:
   push:
-    paths: .topics/kafka-topics/**
+    paths:
+      - .topics/kafka-topics/**
+      - "!.topics/kafka-topics/template/**"
 
 jobs:
   # ----------------------------- #
@@ -78,6 +80,7 @@ jobs:
 
       # deploy to dev gcp
       - name: deploy to dev
+        if: matrix.topic != 'template'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
@@ -104,6 +107,7 @@ jobs:
 
       # deploy to prod gcp
       - name: deploy to prod
+        if: matrix.topic != 'template'
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}

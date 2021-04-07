@@ -1,0 +1,17 @@
+apiVersion: kafka.nais.io/v1
+kind: Topic
+metadata:
+  name: crm-kafka-activity-kurs # ! Kafka Topic name used in other apps
+  namespace: team-dialog
+  labels:
+    team: team-dialog
+spec:
+  pool: {{pool}}
+  config:
+  {{#each config as |value key|}}
+     {{key}}: {{value}}
+  {{/each}}
+  acl:
+    - team: team-dialog
+      application: crm-kafka-activity-kurs # ! Same as above
+      access: readwrite
