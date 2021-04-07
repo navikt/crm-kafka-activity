@@ -161,17 +161,17 @@ jobs:
   # -------- deploy prod -------- #
   # ----------------------------- #
 
-  # deploy-prod:
-  #   name: Deploy to prod-gcp
-  #   needs: [build, setup-matrix]
-  #   runs-on: ubuntu-latest
-  #   if: needs.setup-matrix.outputs.emptyMatrix == 'false' && github.ref == 'refs/heads/main'
-  #   strategy:
-  #     matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - uses: nais/deploy/actions/deploy@v1
-  #       env:
-  #         APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-  #         CLUSTER: prod-gcp
-  #         RESOURCE: .nais/${{ matrix.resource }}/prod.yml
+  deploy-prod:
+    name: Deploy to prod-gcp
+    needs: [build, setup-matrix]
+    runs-on: ubuntu-latest
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false' && github.ref == 'refs/heads/main'
+    strategy:
+      matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: prod-gcp
+          RESOURCE: .nais/${{ matrix.resource }}/prod.yml
