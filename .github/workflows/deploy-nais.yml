@@ -142,6 +142,7 @@ jobs:
 
           # if manual deployment, add all to matrix
           if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+            echo ----------------------------
             echo Manual deployment, deploy all topics
             
             # cause all apps to re-deploy

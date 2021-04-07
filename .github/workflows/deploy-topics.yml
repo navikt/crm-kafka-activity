@@ -47,6 +47,7 @@ jobs:
 
           # if manual deployment, add all to matrix
           if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+            echo ----------------------------
             echo Manual deployment, deploy all topics
             
             MATRIX=$(for i in $(ls -d .topics/kafka-topics/*/); do echo ${i%%/}; done | cut -d '/' -f 3 | paste -d',' -s )
