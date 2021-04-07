@@ -42,6 +42,8 @@ Only the following changes will cause automatic deployment of topics:
 - [.topics/push-topics/](/.topics/push-topics) (Salesforce Push Topic configurations)
 - [.topics/kafka-topics/](/.topics/kafka-topics) (Kafka Topic configurations)
 
+Only the newly added topics will be deployed, and edited topics will be re-deployed. However, deploying all topics have side effects.
+
 # Publishing to Topics
 
 See [.nais](/.nais) to start publishing to a topic.
@@ -49,7 +51,7 @@ See [.nais](/.nais) to start publishing to a topic.
 Only the following changes will cause automatic deployment of nais pods:
 
 - [.nais/](/.nais) (app configurations, one for each pod)
-  - Causes only the changed or added configurations/pods to be deployed, the rest are ignored
+  - Only the newly added configurations will be deployed, and edited configurations will be re-deployed.
 - [src/](/src) (Kotlin code)
   - All configurations (pods) are re-deployed by editing the code base
 - [build.gradle](/build.gradle) (Kotlin dependencies)
@@ -59,7 +61,7 @@ Only the following changes will cause automatic deployment of nais pods:
 
 **NOTE!** Re-deployment of apps means every record (for a given Push Topic) that is edited during the last 72 hours will be re-added into the Kafka stream. The `key` values is the same, so it might create duplicate rows. But because each change on a record is added to the Kafka queue anyway, it shouldn't be a problem for logic.
 
-**If you can avoid re-deploying all pods, please do so.**
+**<ins>If you can avoid re-deploying all pods, please do so.</ins>**
 
 # Updating Secrets in GCP
 
