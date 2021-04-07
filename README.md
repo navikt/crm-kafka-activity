@@ -31,13 +31,11 @@ By building the project, you can verify that [src/](/src) and [build.gradle](/bu
 
 ## Run Locally
 
-The EMP Streaming API (EMP Connector) can be tested locally by commenting out `enableNAISAPI` in [Bootstrap.kt](/src/main/kotlin/no/nav/crm/kafka/activity/Bootstrap.kt) and hardcoding login info below it. The code inside `processData()` in [EMP.kt](/src/main/kotlin/no/nav/crm/kafka/activity/EMP.kt) will also need to be commented out, because Kafka in inaccessible locally. Then you can run the project by using `gradle run` or running the project inside IntelliJ.
+The EMP Streaming API (EMP Connector) can be tested locally by commenting out `enableNAISAPI` in [Bootstrap.kt](/src/main/kotlin/no/nav/crm/kafka/activity/Bootstrap.kt) and hardcoding login info below it. The code inside `processData()` in [EMP.kt](/src/main/kotlin/no/nav/crm/kafka/activity/EMP.kt) will also need to be commented out, because Kafka is inaccessible locally. Then you can run the project by using `gradle run` or running the project inside IntelliJ.
 
 # Defining Topics
 
 See [.topics](/.topics) to define new topics.
-
-Topics are recommended to be created and pushed to `main` before publishing to topics. If all is done in one commit, verify that all the nais pods are running correctly. Most of the time, the nais pod will take longer to deploy than the Kafka topic (and thus, no issues should arrise). Worst case scenario, the pod restarts until the topic exists.
 
 Only the following changes will cause automatic deployment of topics:
 
@@ -50,14 +48,18 @@ See [.nais](/.nais) to start publishing to a topic.
 
 Only the following changes will cause automatic deployment of nais pods:
 
-- [.nais/](/.nais) (app configurations)
+- [.nais/](/.nais) (app configurations, one for each pod)
+  - Causes only the changed or added configurations/pods to be deployed, the rest are ignored
 - [src/](/src) (Kotlin code)
+  - All configurations (pods) are re-deployed by editing the code base
 - [build.gradle](/build.gradle) (Kotlin dependencies)
+  - All configurations (pods) are re-deployed by editing dependencies
 - [Dockerfile](/Dockerfile) (OS Image)
-
-If [.nais/](/.nais) is changed, only the changed or added app configuration are deployed. If the rest are changed, ALL apps are deployed/re-deployed.
+  - All configurations (pods) are re-deployed by editing OS settings
 
 **NOTE!** Re-deployment of apps means every record (for a given Push Topic) that is edited during the last 72 hours will be re-added into the Kafka stream. The `key` values is the same, so it might create duplicate rows. But because each change on a record is added to the Kafka queue anyway, it shouldn't be a problem for logic.
+
+**If you can avoid re-deploying all pods, please do so.**
 
 # Updating Secrets in GCP
 
