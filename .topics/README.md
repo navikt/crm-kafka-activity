@@ -14,7 +14,7 @@ To define a new topic that will later be published to, you must first creat a to
      - List of fields to query
    - `PARAMETERS`
      - What should appear after a `WHERE` clause in a SOQL Query
-1. Push changes to `main` (you can also create topics in Kafka and push at the same time)
+1. Push changes to your branch
 1. Verify that [deploy-push-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-push-topics.yml) ran successfully
 
 ## Creating Topics in Kafka
@@ -25,7 +25,7 @@ To define a new topic that will later be published to, you must first creat a to
      - Kafka Topic name used in other apps
    - `acl`.`application`
      - Should be same as above, so that the accompanying app matches the Kafka Topics
-1. Push changes to `main`
+1. Push changes to your branch
 1. Verify that [deploy-topics.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-topics.yml) ran successfully
 1. Verify that the topics are ready in dev/prod clusters
    - `kubectl config use-context dev-gcp && kubectl get topic --namespace=team-dialog`
