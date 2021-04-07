@@ -1,6 +1,7 @@
 name: Deploy Push Topics to Salesforce
 
 on:
+  workflow_dispatch:
   push:
     branches: main
     paths:
@@ -29,7 +30,7 @@ jobs:
       - name: Set Matrix
         id: set-matrix
         run: |
-          MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
+          MATRIXø=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
           echo Matrix is $MATRIX
           if [[  -z "${MATRIX// }" ]]; then
             echo "Empty matrix"
@@ -50,7 +51,7 @@ jobs:
     name: Deploy Preprod
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
@@ -88,7 +89,7 @@ jobs:
     name: Deploy Production
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:

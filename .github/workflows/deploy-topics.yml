@@ -1,6 +1,7 @@
 name: Deploy Kafka Topics to Aiven
 
 on:
+  workflow_dispatch:
   push:
     branches: main
     paths: .topics/kafka-topics/**
@@ -47,7 +48,7 @@ jobs:
     name: Deploy Dev
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
@@ -73,7 +74,7 @@ jobs:
     name: Deploy Production
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
