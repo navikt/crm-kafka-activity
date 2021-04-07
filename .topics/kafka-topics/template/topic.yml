@@ -1,7 +1,7 @@
 apiVersion: kafka.nais.io/v1
 kind: Topic
 metadata:
-  name: crm-kafka-activity-CHANGE-ME # ! Kafka Topic name used in other apps
+  name: crm-kafka-activity-NAME # ! Kafka Topic name used in other apps
   namespace: team-dialog
   labels:
     team: team-dialog
@@ -13,5 +13,5 @@ spec:
   {{/each}}
   acl:
     - team: team-dialog
-      application: crm-kafka-activity-CHANGE-ME # ! Same as above
+      application: crm-kafka-activity-NAME # ! Same as above
       access: readwrite

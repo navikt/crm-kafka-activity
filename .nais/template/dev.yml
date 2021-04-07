@@ -1,20 +1,20 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: crm-kafka-activity-CHANGE-ME # ! Must be the same as the Kafka Topic name
+  name: crm-kafka-activity-NAME # ! Must be the same as the Kafka Topic name
   namespace: team-dialog
   labels:
     team: team-dialog
 spec:
   env:
     - name: KAFKA_CLIENTID
-      value: crm-kafka-activity-CHANGE-ME # ! Same as above
+      value: crm-kafka-activity-NAME # ! Same as above
     - name: KAFKA_TOPIC
-      value: team-dialog.crm-kafka-activity-CHANGE-ME # ! Namespace + same as above
+      value: team-dialog.crm-kafka-activity-NAME # ! Namespace + same as above
     - name: EMP_ENV
       value: dev # ! prod or dev
     - name: EMP_TOPIC
-      value: kafka-CHANGE-ME # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
+      value: kafka-NAME # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
   kafka:
     pool: nav-dev # ! nav-dev or nav-prod
   webproxy: true
