@@ -4,7 +4,8 @@ To define a new topic that will later be published to, you must first creat a to
 
 ## Creating Push Topics in Salesforce
 
-1. Duplicate `template.cls` in [push-topics](/.topics/push-topics)
+1. Duplicate `template.cls` in [push-topics](/.topics/push-topics) and give it a new name
+1. **Important!** Commit (but don't push) the default template (with **<ins>no</ins>** changes inside)
 1. Modify the following fields
    - `PUSH_TOPIC_NAME`
      - Is later used as `EMP_TOPIC` in [.nais](/.nais) config
@@ -19,7 +20,8 @@ To define a new topic that will later be published to, you must first creat a to
 
 ## Creating Topics in Kafka
 
-1. Copy and paste an existing folder in [kafka-topics](/.topics/kafka-topics)
+1. Duplicate `template` folder in [kafka-topics](/.topics/kafka-topics) and give it a new name
+1. **Important!** Commit (but don't push) the default template (with **<ins>no</ins>** changes inside)
 1. Change the following inside `topic.yml`
    - `metadata`.`name`
      - Kafka Topic name used in other apps
