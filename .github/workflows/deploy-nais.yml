@@ -133,10 +133,27 @@ jobs:
                   echo "Apps to re-deploy: $MATRIX"
 
                   JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
+                  echo "JSON matrix: $JSON"
+
                   echo "::set-output name=matrix::$JSON"
                   echo "::set-output name=emptyMatrix::false"
               fi
           done
+
+          # if manual deployment, add all to matrix
+          if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+            echo Manual deployment, deploy all topics
+            
+            # cause all apps to re-deploy
+            MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
+            echo "Apps to re-deploy: $MATRIX"
+
+            JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
+            echo "JSON matrix: $JSON"
+
+            echo "::set-output name=matrix::$JSON"
+            echo "::set-output name=emptyMatrix::false"
+          fi
 
   # ----------------------------- #
   # -------- deploy dev --------- #
