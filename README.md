@@ -6,7 +6,7 @@ Framework to publish activity (data) from Salesforce to Kafka in GCP. Easily edi
 
 - `team-dialog`.`crm-kafka-activity-oppgaver`
 - `team-dialog`.`crm-kafka-activity-events`
-  <!-- - `team-dialog`.`crm-kafka-activity-kurs` -->
+- `team-dialog`.`crm-kafka-activity-kurs`
   <!-- - `team-dialog`.`crm-kafka-activity-interne-kontaktpersoner` -->
   <!-- - `team-dialog`.`crm-kafka-activity-bedriftsavtaler` -->
   <!-- - `team-dialog`.`crm-kafka-activity-kampanje` -->
