@@ -33,7 +33,7 @@ jobs:
           MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
           echo ----------------------------
 
-          echo {{ github.event_name }}
+          echo ${{ github.event_name }}
           if [[  -z "${MATRIX// }" ]]; then
             echo "No topics were changed"
             echo "::set-output name=emptyMatrix::true"
