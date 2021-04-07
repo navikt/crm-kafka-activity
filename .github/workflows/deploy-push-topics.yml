@@ -33,7 +33,7 @@ jobs:
           MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
           echo ----------------------------
 
-          echo ${{ github.event_name }}
+          # if no changed topics
           if [[  -z "${MATRIX// }" ]]; then
             echo "No topics were changed"
             echo "::set-output name=emptyMatrix::true"
@@ -48,6 +48,20 @@ jobs:
             echo "::set-output name=emptyMatrix::false"
           fi
 
+          # if manual deployment, add all to matrix
+          if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
+            echo Manual deployment, deploy all topics
+            
+            MATRIX=$(for i in $(ls .topics/push-topics/); do echo ${i%%/}; done | cut -d '/' -f 3 | paste -d',' -s )
+            echo "Topics to deploy: $MATRIX"
+
+            JSON=$(jq -c -n --arg v $MATRIX '{"topic": $v|split(",")}')
+            echo "JSON matrix: $JSON"
+
+            echo "::set-output name=matrix::$JSON"
+            echo "::set-output name=emptyMatrix::false"
+          fi
+
   # ----------------------------- #
   # ------- deploy preprod ------ #
   # ----------------------------- #
@@ -56,7 +70,7 @@ jobs:
     name: Deploy Preprod
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
@@ -79,7 +93,6 @@ jobs:
       - name: Upsert Push Topic
         if: matrix.topic != 'template.cls'
         run: |
-          echo ${{ matrix.topic }}
           sfdx force:apex:execute -u preprod -f .topics/push-topics/${{ matrix.topic }} --json | tee output
 
           if [ $(cat output | jq '.result.success') == "false" ]; then
@@ -94,7 +107,7 @@ jobs:
     name: Deploy Production
     needs: setup-matrix
     runs-on: ubuntu-latest
-    if: needs.setup-matrix.outputs.emptyMatrix == 'false' || github.event_name == 'workflow_dispatch'
+    if: needs.setup-matrix.outputs.emptyMatrix == 'false'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
@@ -117,7 +130,6 @@ jobs:
       - name: Upsert Push Topic
         if: matrix.topic != 'template.cls'
         run: |
-          echo ${{ matrix.topic }}
           sfdx force:apex:execute -u prod -f .topics/push-topics/${{ matrix.topic }} --json | tee output
 
           if [ $(cat output | jq '.result.success') == "false" ]; then
