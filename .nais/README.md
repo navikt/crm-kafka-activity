@@ -9,8 +9,8 @@ Before the new topic can have data published to it, the topics must be created s
 
 ## Define nais Configurations
 
-1. Copy and paste a folder for the new topic
-1. Make sure the folder contains `dev.yml` and `prod.yml` (or either of them for testing purposes)
+1. Duplicate `template` folder and give it a new name
+1. **Important!** Commit (but don't push) the default template (with **<ins>no</ins>** changes inside)
 1. Edit these values inside `dev.yml` and `prod.yml`
    - `metadata`.`name`
      - Same as [.topics/kafka-topics](/.topics/push-topics) → [TopicFolder] → `topic.yml` → `metadata.name`
@@ -19,14 +19,16 @@ Before the new topic can have data published to it, the topics must be created s
    - `KAFKA_TOPIC`
      - Namespace + Same as bove
    - `EMP_ENV`
-     - Either `prod` or `dev`
+     - `prod` or `dev` should be set correctly
+   - `kafka.pool`
+     - `nav-prod` or `nav-dev` should be set correctly
    - `EMP_TOPIC`
      - [.topics/push-topics](/.topics/push-topics) → [PushTopicFile] → `PUSH_TOPIC_NAME`
-1. Push changes to `main`
+1. Push changes to your branch
 1. Verify that [deploy-nais.yml](https://github.com/navikt/crm-kafka-activity/actions/workflows/deploy-nais.yml) ran successfully
 1. Verify that the topics are ready in dev/prod clusters
    - `kubectl config use-context dev-gcp && kubectl get pods --namespace=team-dialog`
-   - `kubectl config use-context prod-gcp && kubectl get pods --namespace=team-dialog`
+   - `kubectl config use-context prod-gcp && kubectl get pods --namespace=team-dialog` (only relevant on `main` branch)
 
 ### Getting an error on the last commands?
 

@@ -10,6 +10,7 @@ on:
   push:
     paths:
       - ".nais/**"
+      - "!.nais/template/**"
       - "!.nais/README.md"
       - "src/**"
       - "build.gradle"
@@ -170,6 +171,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: nais/deploy/actions/deploy@v1
+        if: matrix.resource != 'template'
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
@@ -189,6 +191,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: nais/deploy/actions/deploy@v1
+        if: matrix.resource != 'template'
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
