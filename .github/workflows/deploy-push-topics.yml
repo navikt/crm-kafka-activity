@@ -31,14 +31,19 @@ jobs:
         id: set-matrix
         run: |
           MATRIX=$(git diff-tree --diff-filter=d --no-commit-id --name-only -r ${{ github.event.before }} ${{ github.sha }} | grep .topics/push-topics/ | cut -d '/' -f 3 | sort -u | paste -d',' -s )
-          echo Matrix is $MATRIX
+          echo ----------------------------
+
+          echo {{ github.event_name }}
           if [[  -z "${MATRIX// }" ]]; then
-            echo "Empty matrix"
+            echo "No topics were changed"
             echo "::set-output name=emptyMatrix::true"
             echo "::set-output name=matrix::[]"
           else
             JSON=$(jq -c -n --arg v $MATRIX '{"topic": $v|split(",")}')
-            echo "matrix: $JSON"
+            
+            echo "Changed topics: $MATRIX"
+            echo "JSON matrix: $JSON"
+            
             echo "::set-output name=matrix::$JSON"
             echo "::set-output name=emptyMatrix::false"
           fi
