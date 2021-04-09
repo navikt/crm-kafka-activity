@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSetGroup xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Tilganger påkrevd for crm-kafka-activity service user. Se repo https://github.com/navikt/crm-kafka-activity</description>
+    <label>Kafka Activity (Team Dialog) - Main</label>
+    <permissionSets>KafkaActivityDialogTask</permissionSets>
+    <permissionSets>KafkaActivityDialogKurs</permissionSets>
+    <permissionSets>KafkaActivityDialogEvent</permissionSets>
+    <permissionSets>KafkaActivityDialogPushTopics</permissionSets>
+    <status>Updated</status>
+</PermissionSetGroup>

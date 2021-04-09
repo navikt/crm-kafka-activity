@@ -1,0 +1,75 @@
+name: Build, push, and deploy
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "permissions/**"
+      - "!.nais/README.md"
+  push:
+    paths:
+      - "permissions/**"
+      - "!.nais/README.md"
+
+jobs:
+  # ----------------------------- #
+  # ----------- build ----------- #
+  # ----------------------------- #
+
+  build:
+    name: Build (Preprod)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        org: [prod, preprod]
+        include:
+          - org: prod
+            SFDX_URL: PROD_SFDX_URL
+          - org: preprod
+            SFDX_URL: PREPROD_SFDX_URL
+    steps:
+      # Checkout Code
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # Install SFDX and authorize org
+      - name: Install SFDX and authorize org
+        uses: sfdx-actions/setup-sfdx@v1
+        with:
+          sfdx-auth-url: ${{ secrets[matrix.SFDX_URL] }}
+
+      # Build
+      - name: Build
+        run: sfdx force:source:deploy -p permissions -l RunLocalTests --checkonly
+
+  # ----------------------------- #
+  # ----------- deploy ---------- #
+  # ----------------------------- #
+
+  deploy:
+    name: Deploy (Preprod)
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    strategy:
+      matrix:
+        org: [prod, preprod]
+        include:
+          - org: prod
+            SFDX_URL: PROD_SFDX_URL
+          - org: preprod
+            SFDX_URL: PREPROD_SFDX_URL
+    steps:
+      # Checkout Code
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      # Install SFDX and authorize org
+      - name: Install SFDX and authorize org
+        uses: sfdx-actions/setup-sfdx@v1
+        with:
+          sfdx-auth-url: ${{ secrets[matrix.SFDX_URL] }}
+
+      # Deploy to preprod and prod if on main branch, preprod only if not on main branch
+      - name: Deploy
+        if: github.ref == 'refs/heads/main' || github.ref != 'refs/heads/main' && matrix.org == 'prodprod'
+        run: sfdx force:source:deploy -p permissions

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Kafka Activity (Team Dialog) - Push Topics</label>
+    <description>Tilganger påkrevd for crm-kafka-activity service user. Se repo https://github.com/navikt/crm-kafka-activity</description>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <object>PushTopic</object>
+    </objectPermissions>
+</PermissionSet>
