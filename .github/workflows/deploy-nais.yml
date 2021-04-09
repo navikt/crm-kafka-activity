@@ -1,4 +1,4 @@
-name: Deploy App to NAIS
+name: Deploy Apps to NAIS
 
 on:
   workflow_dispatch:
