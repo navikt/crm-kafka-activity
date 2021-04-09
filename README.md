@@ -11,6 +11,10 @@ Framework to publish activity (data) from Salesforce to Kafka in GCP. Easily edi
   <!-- - `team-dialog`.`crm-kafka-activity-bedriftsavtaler` -->
   <!-- - `team-dialog`.`crm-kafka-activity-kampanje` -->
 
+## Consume Data from Topics
+
+To consume data from the topics above, you application must be added to the topic definition file. To do so, see instructions in [.topics](/.topics).
+
 # Testing / Debugging Configurations
 
 To create new Kafka streams or update existing streams with new data or fields, make your changes to a new branch. See [Defining Topics](#defining-topics) and [Publishing to Topics](#publishing-to-topics) how to make changes to configurations.

@@ -1,3 +1,21 @@
+# Consume Data from Topics
+
+To consume data from any of the Kafka streams, the NAIS application must be added to the topic definition file.
+
+There will be a folder for each topic inside [.topics/kafka-topics/](/.topics/kafka-topics). To add an application to some or all topics, edit `topic.yml` for the required topic. Under `acl`, add your namespace, application name and <ins>read-only</ins> access. The format should be like this:
+
+```yaml
+acl:
+  # this is the producer NAIS app
+  - team: team-dialog
+    application: crm-kafka-activity-oppgaver
+    access: readwrite
+  # this is the consumer NAIS app (i.e., the new app to add)
+  - team: team-something
+    application: something-else
+    access: read
+```
+
 # Defining a New Topic
 
 To define a new topic that will later be published to, you must first creat a topic in both Salesforce and Kafka
