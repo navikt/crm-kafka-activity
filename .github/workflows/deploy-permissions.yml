@@ -72,4 +72,4 @@ jobs:
       # Deploy to preprod and prod if on main branch, preprod only if not on main branch
       - name: Deploy
         if: github.ref == 'refs/heads/main' || github.ref != 'refs/heads/main' && matrix.org == 'prodprod'
-        run: sfdx force:source:deploy -p permissions
+        run: sfdx force:source:deploy -p permissions -l RunLocalTests
