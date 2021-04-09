@@ -13,7 +13,7 @@ import no.nav.crm.kafka.activity.nais.enableNAISAPI
 val EMP_USERNAME = System.getenv("EMP_USERNAME")
 val EMP_PASSWORD = System.getenv("EMP_PASSWORD")
 val EMP_TOPIC = System.getenv("EMP_TOPIC")
-val EMP_URL = if (System.getenv("EMP_ENV") == "prod") "https://salesforce.com"
+val EMP_URL = if (System.getenv("EMP_ENV") == "prod") "https://navdialog.my.salesforce.com"
                 else if (System.getenv("EMP_ENV") == "dev") "https://test.salesforce.com"
                 else ""
 
