@@ -1,4 +1,4 @@
-name: Deploy Permissions
+name: Deploy Permissions to Salesforce
 
 on:
   workflow_dispatch:

@@ -7,7 +7,7 @@ Before the new topic can have data published to it, the topics must be created s
 1. These configuration files will make a new instance of the existing app/code/Docker image be deployed. The same code/image runs for all configuration files, but separate instances so that each instance manages their own topic publication.
 1. The configuration files also decides which Salesforce Push Topic should publish its designated data to which Kafka topic.
 
-## Define nais Configurations
+## Define NAIS Configurations
 
 1. Duplicate `template` folder and give it a new name
 1. **Important!** Commit (but don't push) the default template (with **<ins>no</ins>** changes inside)

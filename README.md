@@ -19,7 +19,7 @@ Pushing to any branch that is **not** the `main` branch will cause `navdialog--p
 
 # Run / Build Project Locally
 
-You can build the project locally to verify that the code works as intended. However, you cannot run the code locally as it is written currently because the code requires nais api's for both secrets and Kafka. For configuration changes only, it is recommended to push code to your branch to test in `navdialog--preprod` and `gcp-dev`. What you can run locally, though, is the EMP Connector from Salesforce to subscribe to a Push Topic.
+You can build the project locally to verify that the code works as intended. However, you cannot run the code locally as it is written currently because the code requires NAIS api's for both secrets and Kafka. For configuration changes only, it is recommended to push code to your branch to test in `navdialog--preprod` and `gcp-dev`. What you can run locally, though, is the EMP Connector from Salesforce to subscribe to a Push Topic.
 
 ## Setup Local Tools
 
@@ -65,7 +65,7 @@ Only the following changes will cause automatic deployment of nais pods:
 
 # Updating Secrets in GCP
 
-Google Secret Manager is used to maintain service users for Salesforce production (`navdialog`) and preproduction (`navdialog--preprod`) environments. To deploy push topics and nais configurations, some secrets are stored in GitHub. Everything related to Kafka and the nais platform are handled by the nais platform itself.
+Google Secret Manager is used to maintain service users for Salesforce production (`navdialog`) and preproduction (`navdialog--preprod`) environments. To deploy push topics and NAIS configurations, some secrets are stored in GitHub. Everything related to Kafka and NAIS are handled by the NAIS platform itself.
 
 ## Updating Google Secret Manager secrets
 
