@@ -17,3 +17,6 @@ out/
 
 # Kotlin
 Scratch*.kt
+
+# sfdx
+.sfdx
