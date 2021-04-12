@@ -87,7 +87,7 @@ object EMP {
                 val sobjectMap = ObjectMapper().readValue<MutableMap<Any, String>>(sobject)
                 val recordId = sobjectMap.get("Id")
 
-                log.info { "New record processed. Replay ID: $replayId. Record ID: $recordId" }
+                println("New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId")
 
                 val producer = KafkaProducer<String, String>(kafkaProducerConfig)
                 producer.use { p ->
