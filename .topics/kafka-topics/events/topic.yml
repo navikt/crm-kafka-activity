@@ -15,3 +15,6 @@ spec:
     - team: team-dialog
       application: crm-kafka-activity-events # ! Same as above
       access: readwrite
+    - team: team-dialog
+      application: kafka-reader
+      access: read
