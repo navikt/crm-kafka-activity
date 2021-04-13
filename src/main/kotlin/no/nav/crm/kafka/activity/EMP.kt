@@ -79,19 +79,19 @@ object EMP {
         return Consumer<Map<String, Any>> { event ->
 
             workerThreadPool.submit {
-                val event = JSON.toString(event.get("event"))
-                val eventMap = ObjectMapper().readValue<MutableMap<Any, String>>(event)
+                val eventObject = JSON.toString(event.get("event"))
+                val eventMap = ObjectMapper().readValue<MutableMap<Any, String>>(eventObject)
                 val replayId = eventMap.get("replayId")
 
-                val sobject = JSON.toString(event.get("sobject"))
-                val sobjectMap = ObjectMapper().readValue<MutableMap<Any, String>>(sobject)
-                val recordId = sobjectMap.get("Id")
+                val sObject = JSON.toString(event.get("sobject"))
+                val sObjectMap = ObjectMapper().readValue<MutableMap<Any, String>>(sObject)
+                val recordId = sObjectMap.get("Id")
 
                 println("New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId")
-
+                
                 val producer = KafkaProducer<String, String>(kafkaProducerConfig)
                 producer.use { p ->
-                    p.send(ProducerRecord(topic, replayId, sobject))
+                    p.send(ProducerRecord(topic, replayId, sObject))
                     p.flush()
                 }
             }
