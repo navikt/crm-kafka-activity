@@ -6,5 +6,8 @@
     <permissionSets>KafkaActivityDialogKurs</permissionSets>
     <permissionSets>KafkaActivityDialogEvent</permissionSets>
     <permissionSets>KafkaActivityDialogPushTopics</permissionSets>
+    <permissionSets>KafkaActivityDialogAccount</permissionSets>
+    <permissionSets>KafkaActivityDialogTmpLayoff</permissionSets>
+    <permissionSets>KafkaActivityDialogCustomOpty</permissionSets>
     <status>Updated</status>
 </PermissionSetGroup>
