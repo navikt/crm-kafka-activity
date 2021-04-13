@@ -88,7 +88,6 @@ object EMP {
                 val recordId = sObjectMap.get("Id")
 
                 println("New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId")
-                
                 val producer = KafkaProducer<String, String>(kafkaProducerConfig)
                 producer.use { p ->
                     p.send(ProducerRecord(topic, replayId, sObject))
