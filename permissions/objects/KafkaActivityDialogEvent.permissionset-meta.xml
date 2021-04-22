@@ -32,6 +32,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>EventShadow__c.SH_AccountOrgType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EventShadow__c.SH_AccountNAVUnit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>EventShadow__c.SH_UserNAVUnit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>EventShadow__c.SH_DateActivity__c</field>
         <readable>true</readable>
     </fieldPermissions>
