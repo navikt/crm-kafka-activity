@@ -1,40 +1,47 @@
 {
-    "Id": "123",
-    "OwnerId": "0052o000009cdnqAAA",
-    "IsDeleted": "FALSE",
-    "Name": "Kurs om noe",
-    "CreatedDate": "1/18/21 12:34",
-    "CreatedById": "0052o000009cdnqAAA",
-    "LastModifiedDate": "4/7/21 5:00",
-    "LastModifiedById": "0052o000009GmW3AAK",
-    "SystemModstamp": "4/7/21 5:00",
-    "LastActivityDate": "4/7/21 5:00",
-    "LastViewedDate": "4/7/21 5:00",
-    "LastReferencedDate": "4/7/21 5:00",
-    "Active__c": "FALSE",
-    "PindenaId__c": "123",
-    "Region__c": "Oslo",
-    "RegistrationDeadline__c": "2/4/21 9:00",
-    "RegistrationFromDateTime__c": "2/8/21 9:30",
-    "RegistrationPlaceName__c": "Webinar ved NAV Hjelpemiddelsentral Oslo",
-    "RegistrationToDateTime__c": "2/8/21 11:00",
-    "Theme__c": "Hjelpemidler og tilrettelegging",
-    "RegistrationUrl2__c": "https://kurs.nav.no/s/pamelding?id=123",
-    "AutomaticDeactivation__c": "FALSE",
-    "AvailableSeats__c": "12",
-    "GenerateInvitationCode__c": "FALSE",
-    "GoogleMapsLink__c": "https://www.google.com/maps/place/Webinar+ved+NAV+Hjelpemiddelsentral+Oslo",
-    "InvitationCode__c": "123",
-    "MaxNumberOfParticipants__c": "30",
-    "NumberOfParticipants__c": "18",
-    "Type__c": "Webinar",
-    "DescriptionShort__c": "Beskrivelse",
-    "Waitinglist__c": "3",
-    "ShowCompany__c": "FALSE",
-    "ShowCounty__c": "FALSE",
-    "ShowRole__c": "FALSE",
-    "Cancel__c": "FALSE",
-    "Sub_category__c": "kategori",
-    "Cancel__c2": "FALSE",
-    "Sub_category__c3": "kategori"
+    "event": {
+      "createdDate": "2021-04-22T10:53:57.592Z",        // When record was created in Salesforce. Not editable.
+      "replayId": 26,                                   // Same as the kafka key. designates the order of execution for all records.
+      "type": "created"                                 // 'created', 'updated', 'deleted' or 'undeleted'
+    },
+    "sobject": {
+        "Id": "123",                                    // Salesforce generated ID. The value will never change and is not editable.
+        "CreatedDate": "2021-04-22T10:53:57.592Z",      // The value will never change and is not editable.
+        "LastModifiedDate": "2021-04-22T10:53:57.592Z", // The value will change on future updates, but the field itself is not editable.
+        "CreatedById": "0052o000009cdnqAAA",            // Salesforce ID for the user that created the record. The value will never change and is not editable.
+        "LastModifiedById": "0052o000009GmW3AAK",       // Salesforce ID for the user that edited the record. The value might change on future updates, but the field itself is not editable.
+        "OwnerId": "0052o000009cdnqAAA",                // Salesforce ID to the NAV employee owning the record
+        "IsDeleted": "FALSE",
+        "Name": "Kurs om noe",                          // Name of the course
+        "SystemModstamp": "2021-04-22T10:53:57.592Z",
+        "LastActivityDate": "2021-04-22T10:53:57.592Z",
+        "LastViewedDate": "2021-04-22T10:53:57.592Z",
+        "LastReferencedDate": "2021-04-22T10:53:57.592Z",
+        "Active__c": "FALSE",
+        "PindenaId__c": "123",                          // referening the course from the old course system
+        "Region__c": "Oslo",
+        "RegistrationDeadline__c": "2021-04-22T10:53:57.592Z",
+        "RegistrationFromDateTime__c": "2021-04-22T10:53:57.592Z",  // when the course starts
+        "RegistrationPlaceName__c": "Webinar ved NAV Hjelpemiddelsentral Oslo",
+        "RegistrationToDateTime__c": "2021-04-22T10:53:57.592Z",    // when the course ends
+        "Theme__c": "Hjelpemidler og tilrettelegging",
+        "RegistrationUrl2__c": "https://kurs.nav.no/s/pamelding?id=123",
+        "AutomaticDeactivation__c": "FALSE",
+        "AvailableSeats__c": "12",
+        "GenerateInvitationCode__c": "FALSE",
+        "GoogleMapsLink__c": "https://www.google.com/maps/place/Webinar+ved+NAV+Hjelpemiddelsentral+Oslo",
+        "InvitationCode__c": "123",
+        "MaxNumberOfParticipants__c": "30",
+        "NumberOfParticipants__c": "18",
+        "Type__c": "Webinar",
+        "DescriptionShort__c": "Beskrivelse",
+        "Waitinglist__c": "3",
+        "ShowCompany__c": "FALSE",
+        "ShowCounty__c": "FALSE",
+        "ShowRole__c": "FALSE",
+        "Cancel__c": "FALSE",
+        "Sub_category__c": "kategori",
+        "Cancel__c2": "FALSE",
+        "Sub_category__c3": "kategori"
+    }
 }
