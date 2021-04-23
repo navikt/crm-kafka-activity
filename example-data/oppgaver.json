@@ -1,33 +1,35 @@
 {
-    "LastModifiedDate": "2021-03-29T16:21:39.000Z",
-    "WhatId": "0010E00000k8TRQQA2",
-    "RecurrenceDayOfWeekMask": null,
-    "RecurrenceEndDateOnly": null,
-    "ReminderDateTime": "2021-03-29T17:00:00.000Z",
-    "RecurrenceRegeneratedType": null,
-    "IsClosed": false,
-    "RecurrenceInterval": null,
-    "TAG_ActivityType__c": "Rekruttere og inkludere",
-    "Status": "Open",
-    "WhoId": "0030E00000gfNYOQA2",
-    "ActivityDate": "2021-03-10T00:00:00.000Z",
-    "Priority": "High",
-    "RecurrenceType": null,
-    "IsRecurrence": false,
-    "Subject": "Min oppgave",
-    "RecurrenceTimeZoneSidKey": null,
-    "IsArchived": false,
-    "CRM_Region__c": "Øst-Viken",
-    "Type": "Email",
-    "TAG_service__c": "Jobbmesser og møteplasser",
-    "CRM_AccountOrgNumber__c": null,
-    "CRM_Unit__c": "NAV Ullensaker",
-    "TaskSubtype": "task",
-    "RecurrenceMonthOfYear": null,
-    "RecurrenceDayOfMonth": null,
-    "CompletedDateTime": null,
-    "CreatedDate": "2021-03-29T12:42:34.000Z",
-    "RecurrenceInstance": null,
-    "Id": "00T0E00000FB0YLUA1",
-    "RecurrenceStartDateOnly": null
+    "event": {
+      "createdDate": "2021-04-22T10:53:57.592Z",            // When record was created in Salesforce. Not editable.
+      "replayId": 26,                                       // Same as the kafka key. designates the order of execution for all records.
+      "type": "created"                                     // 'created', 'updated', 'deleted' or 'undeleted'
+    },      
+    "sobject": {
+        "Id": "00T0E00000FB0YLUA1",                         // Salesforce generated ID. The value will never change and is not editable.
+        "CreatedDate": "2021-03-29T12:42:34.000Z",          // The value will never change and is not editable.
+        "LastModifiedDate": "2021-03-29T16:21:39.000Z",     // The value will change on future updates, but the field itself is not editable.
+        "CreatedById": "0052o000009UFFSAA4",                // Salesforce ID for the user that created the record. The value will never change and is not editable.
+        "LastModifiedById": "0052o000009UFFSAA4",           // Salesforce ID for the user that edited the record. The value might change on future updates, but the field itself is not editable.
+        "TAG_AccountOrgType__c": "B",                       // 'J', 'O' or 'B' (Juridisk, Organisatorisk, Bedrift)
+        "TAG_AccountNAVUnit__c": "0208",                    // NAV Unit Number (NORG ID) that the organisation is associated geographically to
+        "TAG_UserNAVUnit__c": "0208",                       // NAV Unit Number (NORG ID) that the NAV employee that created the task is working at
+        "WhatId": "0010E00000k8TRQQA2",                     // Salesforce ID to the related record (should be the organisation)
+        "ReminderDateTime": "2021-03-29T17:00:00.000Z",     // If the user set a date for when to be reminded about the task
+        "IsClosed": false,                                  // If the task is finished/completed by the user
+        "TAG_ActivityType__c": "Rekruttere og inkludere",   // "Rekruttere og inkludere", "Forebygge sykefravær og redusere frafall", "Nedbemanne" (predefined choices in a dropdown meny)
+        "TAG_service__c": "Jobbmesser og møteplass",        // Dependant on field TAG_ActivityType__c. Rekruttere og inkludere=['Jobbmesser og møteplasser', 'Rekrutteringsoppdrag', 'Informasjon om NAVs tjenester', 'Inkluderende rekruttering', 'IPS Jobbutvikling', 'IPS Jobbstøtte' (predefined choices in a dropdown meny'], Forebygge sykefravær og redusere frafall=['Helse i arbeid', 'Redusere sykefravær', 'Forbyggende arbeidsmiljøarbeid', 'Informasjon om NAVs tjenester'], Nedbemanne=['Permittering', 'Informasjon om NAVs tjenester', 'Masseoppsigelser']
+        "Status": "Open",                                   // 'Open' or 'Closed'
+        "WhoId": "0030E00000gfNYOQA2",                      // Salesforce ID referencing the person in the company that the task occured with
+        "ActivityDate": "2021-03-10T00:00:00.000Z",         // Due date for the task
+        "Priority": "High",                                 // 'Normal' or 'High'
+        "Subject": "Min oppgave",                           // Open field the user can type whatever they'd like
+        "IsArchived": false,
+        "CRM_Region__c": "Øst-Viken",
+        "Type": "Email",                                    // Email, Call, SMS, Other (predefined choices in a dropdown meny)
+        "CRM_AccountOrgNumber__c": "889640782",             // Org number
+        "TAG_AccountParentId__c": "a1O0E000002QdFcUAK",     // Salesforce ID to the parent organisation (J unit)
+        "TAG_AccountParentOrgNumber__c": "889640781",       // Org number to the parent organisation (J unit)
+        "CRM_Unit__c": "NAV Ullensaker",                    // NAV unit name
+        "TaskSubtype": "task",                              // 'Task', 'Email' (Task is user created, Email is system generated)
+        "CompletedDateTime": null
 }

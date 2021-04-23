@@ -91,7 +91,7 @@ object EMP {
 
                 val producer = KafkaProducer<String, String>(kafkaProducerConfig)
                 producer.use { p ->
-                    p.send(ProducerRecord(topic, replayId, sObject))
+                    p.send(ProducerRecord(topic, replayId, JSON.toString(event)))
                     p.flush()
                 }
             }

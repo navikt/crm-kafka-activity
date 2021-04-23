@@ -1,7 +1,6 @@
 String PUSH_TOPIC_NAME = 'kafka-oppgaver';              // Keep 'kafka-' but change what comes after to your preferred and unique push topic name
 String SOBJECT_NAME = 'Task';                    // Change to the Salesforce Object name
-List<String> FIELDS = new List<String> { 'Id', 'WhatId', 'WhoId', 'Subject', 'ActivityDate', 'Status', 'Priority', 'Type', 'CreatedDate', 'LastModifiedDate', 'IsClosed', 'IsArchived', 'TaskSubtype', 'CompletedDateTime', 'TAG_ActivityType__c', 'TAG_service__c', 'CRM_Region__c', 'CRM_Unit__c', 'CRM_AccountOrgNumber__c', 'ReminderDateTime',
-                                         'IsRecurrence', 'RecurrenceStartDateOnly', 'RecurrenceEndDateOnly', 'RecurrenceTimeZoneSidKey', 'RecurrenceType', 'RecurrenceInterval', 'RecurrenceDayOfWeekMask', 'RecurrenceDayOfMonth', 'RecurrenceInstance', 'RecurrenceMonthOfYear', 'RecurrenceRegeneratedType' };
+List<String> FIELDS = new List<String> { 'Id', 'WhatId', 'WhoId', 'Subject', 'ActivityDate', 'TAG_AccountParentId__c', 'TAG_AccountParentOrgNumber__c', 'Status', 'Priority', 'Type', 'CreatedDate', 'LastModifiedDate', 'CreatedById', 'LastModifiedById', 'IsClosed', 'IsArchived', 'TaskSubtype', 'CompletedDateTime', 'TAG_ActivityType__c', 'TAG_service__c', 'CRM_Region__c', 'CRM_Unit__c', 'CRM_AccountOrgNumber__c', 'ReminderDateTime' };
 String PARAMETERS = '';       // After a WHERE clause. Empty or null to fetch all records
 
 // --------------------------------------------------
