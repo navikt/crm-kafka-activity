@@ -8,7 +8,7 @@ There will be a folder for each topic inside [.topics/kafka-topics/](/.topics/ka
 acl:
   # this is the producer NAIS app
   - team: team-dialog
-    application: crm-kafka-activity-oppgaver
+    application: crm-kafka-activity-oppgaver-v2
     access: readwrite
   # this is the consumer NAIS app (i.e., the new app to add)
   - team: team-something
