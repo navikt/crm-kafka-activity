@@ -24,7 +24,7 @@
         "Priority": "High",                                 // 'Normal' or 'High'
         "Subject": "Min oppgave",                           // Open field the user can type whatever they'd like
         "IsArchived": false,
-        "AccountId": "0010E000014TeDpQAK",         // Salesforce ID to the organisation
+        "AccountId": "0010E000014TeDpQAK",                  // Salesforce ID to the organisation
         "CRM_Region__c": "Øst-Viken",
         "Type": "Email",                                    // Email, Call, SMS, Other (predefined choices in a dropdown meny)
         "CRM_AccountOrgNumber__c": "889640782",             // Org number
