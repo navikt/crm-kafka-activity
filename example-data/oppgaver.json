@@ -32,4 +32,5 @@
         "CRM_Unit__c": "NAV Ullensaker",                    // NAV unit name
         "TaskSubtype": "task",                              // 'Task', 'Email' (Task is user created, Email is system generated)
         "CompletedDateTime": null
+    }
 }
