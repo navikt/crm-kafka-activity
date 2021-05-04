@@ -48,7 +48,7 @@ Only the following changes will cause automatic deployment of topics:
 
 Only the newly added topics will be deployed, and edited topics will be re-deployed. However, deploying all topics have side effects, see [.topics](/.topics) for details.
 
-Also make sure to create [permission sets](/.permissions) so that the service users have access to the data to expose.
+Also make sure to create [permission sets](/permissions) so that the service users have access to the data to expose.
 
 # Publishing to Topics
 
