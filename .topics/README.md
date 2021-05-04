@@ -59,4 +59,6 @@ To define a new topic that will later be published to, you must first creat a to
 
 # Publishing to a New Topic
 
+Make sure to create [permission sets](/permissions) so that the service users have access to the data to expose.
+
 See [.nais](/.nais) to start publishing to a topic after successful topic creation.
