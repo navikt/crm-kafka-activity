@@ -5,6 +5,8 @@ metadata:
   namespace: team-dialog
   labels:
     team: team-dialog
+  annotations:
+    kafka.nais.io/removeDataWhenResourceIsDeleted: "false"
 spec:
   pool: {{pool}}
   config:
