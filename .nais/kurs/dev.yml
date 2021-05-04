@@ -1,14 +1,14 @@
 apiVersion: "nais.io/v1alpha1"
 kind: "Application"
 metadata:
-  name: crm-kafka-activity-kurs-v2 # ! Must be the same as the Kafka Topic name
+  name: crm-kafka-activity-kurs # ! Must be the same as the Kafka Topic name
   namespace: team-dialog
   labels:
     team: team-dialog
 spec:
   env:
     - name: KAFKA_CLIENTID
-      value: crm-kafka-activity-kurs-v2 # ! Same as above
+      value: crm-kafka-activity-kurs # ! Same as above
     - name: KAFKA_TOPIC
       value: team-dialog.crm-kafka-activity-kurs-v2 # ! Namespace + same as above
     - name: EMP_ENV

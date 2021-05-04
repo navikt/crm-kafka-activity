@@ -13,7 +13,7 @@ spec:
   {{/each}}
   acl:
     - team: team-dialog
-      application: crm-kafka-activity-oppgaver-v2 # ! Same as above
+      application: crm-kafka-activity-oppgaver # ! Same as above
       access: readwrite
     - team: team-dialog
       application: kafka-reader
