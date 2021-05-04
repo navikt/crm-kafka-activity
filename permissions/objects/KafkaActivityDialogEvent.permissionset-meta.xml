@@ -47,11 +47,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>EventShadow__c.SH_DateActivity__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>EventShadow__c.SH_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -98,11 +93,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>EventShadow__c.SH_StartDateTime__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>EventShadow__c.SH_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
