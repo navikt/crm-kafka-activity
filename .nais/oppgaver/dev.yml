@@ -10,7 +10,7 @@ spec:
     - name: KAFKA_CLIENTID
       value: crm-kafka-activity-oppgaver # ! Same as above
     - name: KAFKA_TOPIC
-      value: team-dialog.crm-kafka-activity-oppgaver-v2 # ! Namespace + same as above
+      value: team-dialog.crm-kafka-activity-oppgaver # ! Namespace + same as above
     - name: EMP_ENV
       value: dev # ! prod or dev
     - name: EMP_TOPIC
