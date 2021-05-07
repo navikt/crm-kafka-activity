@@ -6,7 +6,7 @@ metadata:
   labels:
     team: team-dialog
   annotations:
-    kafka.nais.io/removeDataWhenResourceIsDeleted: "false"
+    kafka.nais.io/removeDataWhenResourceIsDeleted: "true"
 spec:
   pool: {{pool}}
   config:
