@@ -40,6 +40,7 @@ jobs:
 
       # Build
       - name: Build
+        if: github.ref == 'refs/heads/main' || github.ref != 'refs/heads/main' && matrix.org == 'prodprod'
         run: sfdx force:source:deploy -p permissions -l RunLocalTests --checkonly
 
   # ----------------------------- #
