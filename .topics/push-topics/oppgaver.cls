@@ -7,6 +7,7 @@ String PARAMETERS = 'AccountId != null';       // After a WHERE clause. Empty or
 // ---------- DO NOT CHANGE ANYTHING BELOW ----------
 // --------------------------------------------------
 
+
 List<PushTopic> oldVersion = [SELECT Id FROM PushTopic WHERE Name = : PUSH_TOPIC_NAME LIMIT 1];
 
 PushTopic pushTopic = new PushTopic(ApiVersion = 47.0, NotifyForOperationCreate = true, NotifyForOperationUpdate = true, NotifyForOperationUndelete = true, NotifyForOperationDelete = true, IsActive = true, Description = 'DO NOT UPDATE! SOQL is maintained in https://github.com/navikt/crm-kafka-activity.');
