@@ -67,7 +67,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Task.TAG_ActivityTypeValue__c</field>
+        <field>Task.TAG_ActivityType_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -77,7 +77,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Task.TAG_ServiceValue__c</field>
+        <field>Task.TAG_Service_Value__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
