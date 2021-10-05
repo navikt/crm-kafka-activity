@@ -75,6 +75,9 @@ object EMP {
 
     private val workerThreadPool = Executors.newFixedThreadPool(1)
 
+    private var latestReplayId: String = "" // TODO Quick fix to stop double posting. Should investigate reason data seems to be handled twice from salesforce
+    private var latestRecordId: String = ""
+
     fun processData(): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
 
@@ -87,12 +90,18 @@ object EMP {
                 val sObjectMap = ObjectMapper().readValue<MutableMap<Any, String>>(sObject)
                 val recordId = sObjectMap.get("Id")
 
-                log.info { "New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId" }
+                if ((replayId == latestReplayId) && (recordId == latestRecordId)) {
+                    log.info { "Duplicate ignored.\nReplay ID: $replayId.\nRecord ID: $recordId" }
+                } else {
+                    log.info { "New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId" }
+                    latestReplayId = replayId ?: ""
+                    latestRecordId = recordId ?: ""
 
-                val producer = KafkaProducer<String, String>(kafkaProducerConfig)
-                producer.use { p ->
-                    p.send(ProducerRecord(topic, replayId, JSON.toString(event)))
-                    p.flush()
+                    val producer = KafkaProducer<String, String>(kafkaProducerConfig)
+                    producer.use { p ->
+                        p.send(ProducerRecord(topic, replayId, JSON.toString(event)))
+                        p.flush()
+                    }
                 }
             }
         }
