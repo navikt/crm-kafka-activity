@@ -105,7 +105,7 @@ object EMP {
                             when (e) {
                                 null -> log.info { "Published to topic ${m.topic()}. partition [${m.partition()}] @ offset ${m.offset()} \nReplay ID: $replayId.\nRecord ID: $recordId" }
                                 // Need to retry with replayId ??
-                                else -> log.error { "Failed to publish to topic ${m.topic()} \nReplay ID: $replayId. \nRecord ID: $recordId /n${e.cause.toString()}"}
+                                else -> log.error { "Failed to publish to topic ${m.topic()} \nReplay ID: $replayId. \nRecord ID: $recordId /n${e.cause}" }
                             }
                         }
                         p.flush()
