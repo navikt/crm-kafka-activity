@@ -10,6 +10,7 @@ import com.salesforce.emp.connector.example.LoggingListener
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.clients.producer.RecordMetadata
 import java.lang.Exception
 import java.net.URL
 import java.util.concurrent.ExecutionException
@@ -93,13 +94,19 @@ object EMP {
                 if ((replayId == latestReplayId) && (recordId == latestRecordId)) {
                     log.info { "Duplicate ignored.\nReplay ID: $replayId.\nRecord ID: $recordId" }
                 } else {
-                    log.info { "New record processed.\nReplay ID: $replayId.\nRecord ID: $recordId" }
                     latestReplayId = replayId ?: ""
                     latestRecordId = recordId ?: ""
 
                     val producer = KafkaProducer<String, String>(kafkaProducerConfig)
+                    val record = ProducerRecord(topic, replayId, JSON.toString(event))
+
                     producer.use { p ->
-                        p.send(ProducerRecord(topic, replayId, JSON.toString(event)))
+                        p.send(record) { m: RecordMetadata, e: Exception? ->
+                            when (e) {
+                                null -> log.info { "Published to topic ${m.topic()}. partition [${m.partition()}] @ offset ${m.offset()} \nReplay ID: $replayId.\nRecord ID: $recordId" }
+                                else -> log.error { "Failed to publish to topic ${m.topic()} \nReplay ID: $replayId. \nRecord ID: $recordId /n${e.cause}" }
+                            }
+                        }
                         p.flush()
                     }
                 }
