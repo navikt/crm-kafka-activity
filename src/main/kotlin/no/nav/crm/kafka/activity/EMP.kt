@@ -103,7 +103,10 @@ object EMP {
                     producer.use { p ->
                         p.send(record) { m: RecordMetadata, e: Exception? ->
                             when (e) {
-                                null -> log.info { "Published to topic ${m.topic()}. partition [${m.partition()}] @ offset ${m.offset()} \nReplay ID: $replayId.\nRecord ID: $recordId" }
+                                null -> {
+                                    log.info { "Published to topic ${m.topic()}. partition [${m.partition()}] @ offset ${m.offset()} \nReplay ID: $replayId.\nRecord ID: $recordId" }
+                                    Metrics.producedEvents.inc()
+                                }
                                 else -> log.error { "Failed to publish to topic ${m.topic()} \nReplay ID: $replayId. \nRecord ID: $recordId /n${e.cause}" }
                             }
                         }

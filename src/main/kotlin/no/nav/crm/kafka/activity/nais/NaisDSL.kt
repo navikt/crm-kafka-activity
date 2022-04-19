@@ -1,7 +1,9 @@
 package no.nav.crm.kafka.activity.nais
 
+import io.prometheus.client.exporter.common.TextFormat
 import java.io.StringWriter
 import mu.KotlinLogging
+import no.nav.crm.kafka.activity.Metrics.cRegistry
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method
 import org.http4k.core.Response
@@ -22,13 +24,6 @@ const val NAIS_ISREADY = "/isReady"
 const val NAIS_METRICS = "/metrics"
 const val NAIS_PRESTOP = "/stop"
 
-/*
-internal val preStopHook: Gauge = Gauge
-        .build()
-        .name("pre_stop__hook_gauge")
-        .help("No. of preStopHook activations since last restart")
-        .register()*/
-
 private fun String.responseByContent(): Response =
     if (this.isNotEmpty()) Response(Status.OK).body(this) else Response(Status.NO_CONTENT)
 
@@ -39,7 +34,7 @@ fun naisAPI(): HttpHandler = routes(
     NAIS_METRICS bind Method.GET to {
         runCatching {
             StringWriter().let { str ->
-                // TextFormat.write004(str, cRegistry.metricFamilySamples())
+                TextFormat.write004(str, cRegistry.metricFamilySamples())
                 str
             }.toString()
         }
@@ -50,7 +45,6 @@ fun naisAPI(): HttpHandler = routes(
             .responseByContent()
     },
     NAIS_PRESTOP bind Method.GET to {
-        // preStopHook.inc()
         PrestopHook.activate()
         log.info { "Received PreStopHook from NAIS" }
         Response(Status.OK)
