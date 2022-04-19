@@ -12,7 +12,6 @@ spec:
     - name: KAFKA_TOPIC
       value: team-dialog.crm-kafka-activity-NAME # ! Namespace + same as above
     - name: EMP_ENV
-      value: dev # ! prod or dev
     - name: EMP_TOPIC
       value: kafka-NAME # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
   kafka:
@@ -41,7 +40,7 @@ spec:
     periodSeconds: 5
     failureThreshold: 30
   prometheus:
-    enabled: false
+    enabled: true
     path: /metrics
   resources:
     limits:

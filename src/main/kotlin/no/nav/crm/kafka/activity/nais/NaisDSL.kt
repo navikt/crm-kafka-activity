@@ -39,7 +39,7 @@ fun naisAPI(): HttpHandler = routes(
             }.toString()
         }
             .onFailure {
-                log.error { "/prometheus failed writing metrics - ${it.localizedMessage}" }
+                log.error { "/prometheus failed writing metrics - ${it.message}" }
             }
             .getOrDefault("")
             .responseByContent()

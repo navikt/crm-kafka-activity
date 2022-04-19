@@ -41,7 +41,7 @@ spec:
     periodSeconds: 5
     failureThreshold: 30
   prometheus:
-    enabled: false
+    enabled: true
     path: /metrics
   resources:
     limits:
