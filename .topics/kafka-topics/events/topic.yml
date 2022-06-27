@@ -23,3 +23,6 @@ spec:
     - team: dvh-arbeid
       application: dvh-arbeidsgiverkontakt-konsument
       access: read
+    - team: dvh-arbeid
+      application: dvh-arbeidsgiverkontakt-moter-konsument
+      access: read

@@ -21,10 +21,6 @@ spec:
   image: "{{ image }}"
   port: 8080
   accessPolicy:
-    inbound:
-      rules:
-        - application: dvh-arbeidsgiverkontakt-oppgaver-konsument
-          namespace: dvh-arbeid
     outbound:
       external:
         - host: salesforce.com
