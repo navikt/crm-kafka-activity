@@ -1,6 +1,6 @@
 String PUSH_TOPIC_NAME = 'kafka-oppgaver';              // Keep 'kafka-' but change what comes after to your preferred and unique push topic name
 String SOBJECT_NAME = 'Task';                    // Change to the Salesforce Object name
-List<String> FIELDS = new List<String> { 'Id', 'WhatId', 'AccountId','WhoId', 'Subject', 'ActivityDate', 'Account.TAG_NavUnit__r.INT_UnitNumber__c', 'Account.CRM_AccountType__c', 'CreatedBy.Department', 'Account.ParentId', 'Account.INT_ParentOrganizationNumber__c', 'Status', 'Priority', 'Type', 'CreatedDate', 'LastModifiedDate', 'CreatedById', 'LastModifiedById', 'IsClosed', 'IsArchived', 'TaskSubtype', 'CompletedDateTime', 'TAG_ActivityType__c', 'TAG_service__c', 'CreatedBy.Region__c', 'CreatedBy.CompanyName', 'Account.INT_OrganizationNumber__c', 'ReminderDateTime' };
+List<String> FIELDS = new List<String> { 'Id', 'WhatId', 'AccountId','WhoId', 'Subject', 'ActivityDate', 'Account.CRM_AccountType__c', 'CreatedBy.Department', 'Account.ParentId', 'Account.INT_ParentOrganizationNumber__c', 'Status', 'Priority', 'Type', 'CreatedDate', 'LastModifiedDate', 'CreatedById', 'LastModifiedById', 'IsClosed', 'IsArchived', 'TaskSubtype', 'CompletedDateTime', 'TAG_ActivityType__c', 'TAG_service__c', 'CreatedBy.Region__c', 'CreatedBy.CompanyName', 'Account.INT_OrganizationNumber__c', 'ReminderDateTime' };
 String PARAMETERS = 'AccountId != null';       // After a WHERE clause. Empty or null to fetch all records
 
 // --------------------------------------------------
