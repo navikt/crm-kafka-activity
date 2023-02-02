@@ -25,6 +25,8 @@ spec:
       rules:
         - application: dvh-arbeidsgiverkontakt-moter-konsument
           namespace: dvh-arbeid
+        - application: teamoppfolging-kcat
+          namespace: dvh-arbeid
     outbound:
       external:
         - host: salesforce.com
