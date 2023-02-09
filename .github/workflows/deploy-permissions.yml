@@ -24,9 +24,9 @@ jobs:
         org: [prod, preprod]
         include:
           - org: prod
-            SFDX_URL: PROD_SFDX_URL
+            SFDX_URL: CRM_PROD_SFDX_URL
           - org: preprod
-            SFDX_URL: PREPROD_SFDX_URL
+            SFDX_URL: CRM_PREPROD_SFDX_URL
     steps:
       # Checkout Code
       - name: Checkout Code
@@ -57,9 +57,9 @@ jobs:
         org: [prod, preprod]
         include:
           - org: prod
-            SFDX_URL: PROD_SFDX_URL
+            SFDX_URL: CRM_PROD_SFDX_URL
           - org: preprod
-            SFDX_URL: PREPROD_SFDX_URL
+            SFDX_URL: CRM_PREPROD_SFDX_URL
     steps:
       # Checkout Code
       - name: Checkout Code
