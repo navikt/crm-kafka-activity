@@ -22,6 +22,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Task.TAG_AccountOrgType2__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Task.TAG_AccountNAVUnit__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -107,7 +112,8 @@
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Kafka Activity (Team Dialog) - Task</label>
-    <description>Tilganger påkrevd for crm-kafka-activity service user. Se repo https://github.com/navikt/crm-kafka-activity</description>
+    <description>Tilganger påkrevd for crm-kafka-activity service user. Se repo
+        https://github.com/navikt/crm-kafka-activity</description>
     <objectPermissions>
         <allowCreate>false</allowCreate>
         <allowDelete>false</allowDelete>
