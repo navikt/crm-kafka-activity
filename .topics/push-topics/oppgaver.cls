@@ -10,7 +10,7 @@ String PARAMETERS = 'AccountId != null AND TAG_AccountOrgType2__c != null';     
 
 List<PushTopic> oldVersion = [SELECT Id FROM PushTopic WHERE Name = : PUSH_TOPIC_NAME LIMIT 1];
 
-PushTopic pushTopic = new PushTopic(ApiVersion = 56.0, NotifyForOperationCreate = true, NotifyForOperationUpdate = true, NotifyForOperationUndelete = true, NotifyForOperationDelete = true, IsActive = true, Description = 'DO NOT UPDATE! SOQL is maintained in https://github.com/navikt/crm-kafka-activity.');
+PushTopic pushTopic = new PushTopic(ApiVersion = 47.0, NotifyForOperationCreate = true, NotifyForOperationUpdate = true, NotifyForOperationUndelete = true, NotifyForOperationDelete = true, IsActive = true, Description = 'DO NOT UPDATE! SOQL is maintained in https://github.com/navikt/crm-kafka-activity.');
 pushTopic.Name = PUSH_TOPIC_NAME;
 pushTopic.Id = oldVersion.size() > 0 ? oldVersion[0].Id : null;
 pushTopic.Query =   ' SELECT ' + 
