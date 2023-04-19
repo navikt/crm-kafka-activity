@@ -15,6 +15,7 @@ spec:
       value: prod # ! prod or dev
     - name: EMP_TOPIC
       value: kafka-NAME # ! Must be the same as the Salesforce Push Topic name (PUSH_TOPIC_NAME)
+    - name: VERSION # Only used for logging
   kafka:
     pool: nav-prod # ! nav-dev or nav-prod
   webproxy: true

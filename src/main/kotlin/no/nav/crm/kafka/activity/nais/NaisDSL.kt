@@ -60,12 +60,12 @@ fun enableNAISAPI(port: Int = NAIS_DEFAULT_PORT, doSomething: () -> Unit): Boole
                 log.info { "NAIS DSL is up and running at port $port" }
                 runCatching(doSomething)
                     .onFailure {
-                        log.error { "Failure during doSomething in enableNAISAPI - ${it.localizedMessage}" }
+                        log.error { "Failure inside enableNAISAPI - ${it.message}" }
                     }
             }
             true
         } catch (e: Exception) {
-            log.error { "Failure during enable/disable NAIS api for port $port - ${e.localizedMessage}" }
+            log.error { "Failure during enable/disable NAIS api for port $port - ${e.message}" }
             false
         } finally {
             srv.close()
