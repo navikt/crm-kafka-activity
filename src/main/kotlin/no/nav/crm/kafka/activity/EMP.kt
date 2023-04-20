@@ -2,11 +2,10 @@ package no.nav.crm.kafka.activity
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.salesforce.emp.connector.BayeuxParameters
-import com.salesforce.emp.connector.EmpConnector
-import com.salesforce.emp.connector.LoginHelper
-import com.salesforce.emp.connector.example.BearerTokenProvider
-import com.salesforce.emp.connector.example.LoggingListener
+import com.salesforce.emp.connector.example.BayeuxParametersVariant
+import com.salesforce.emp.connector.example.EmpConnectorVariant
+import com.salesforce.emp.connector.example.LoginHelperVariant
+import com.salesforce.emp.connector.example.BearerTokenProviderVariant
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -29,6 +28,7 @@ import java.util.concurrent.Executors
 private val log = KotlinLogging.logger { }
 
 object EMP {
+    lateinit var connector: EmpConnectorVariant
 
     @Throws(Throwable::class)
     fun processEvents(
@@ -39,37 +39,41 @@ object EMP {
         replayFrom: Long
     ) {
 
-        val supplier: BayeuxParameters
+        val supplier: BayeuxParametersVariant
         try {
-            supplier = LoginHelper.login(URL(url), username, password)
+            supplier = LoginHelperVariant.login(URL(url), username, password)
         } catch (e: Exception) {
-            log.error { e.cause.toString() }
+            log.error { "Error at login: " + e.message.toString() }
             throw RuntimeException(e)
         }
 
-        val tokenProvider = BearerTokenProvider(Supplier { supplier })
+        log.info { "Login Supplier done" }
+
+        val tokenProvider = BearerTokenProviderVariant(Supplier { supplier })
 
         val params = tokenProvider.login()
 
-        val connector = EmpConnector(params)
+        connector = EmpConnectorVariant(params)
 
-        val loggingListener = LoggingListener(false, true)
-        connector.addListener(META_HANDSHAKE, loggingListener)
-            .addListener(META_CONNECT, loggingListener)
-            .addListener(META_DISCONNECT, loggingListener)
-            .addListener(META_SUBSCRIBE, loggingListener)
-            .addListener(META_UNSUBSCRIBE, loggingListener)
+        val logListener = LogListener()
+        connector.addListener(META_HANDSHAKE, logListener)
+            .addListener(META_CONNECT, logListener)
+            .addListener(META_DISCONNECT, logListener)
+            .addListener(META_SUBSCRIBE, logListener)
+            .addListener(META_UNSUBSCRIBE, logListener)
 
         connector.setBearerTokenProvider(tokenProvider)
-        connector.start()[5, TimeUnit.SECONDS]
+        val result = connector.start()[30, TimeUnit.SECONDS]
+
+        log.info { "Connection result : $result" }
 
         try {
-            connector.subscribe(topic, replayFrom, processData())[5, TimeUnit.SECONDS]
+            connector.subscribe(topic, replayFrom, processData())[30, TimeUnit.SECONDS]
         } catch (e: ExecutionException) {
-            log.error { e.cause.toString() }
+            log.error { "Subscribe ExecutionException:" + e.message }
             throw e.cause!!
         } catch (e: TimeoutException) {
-            log.error { e.cause.toString() }
+            log.error { "Subscribe TimeoutException:" + e.message }
             throw e.cause!!
         }
     }

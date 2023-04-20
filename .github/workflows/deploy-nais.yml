@@ -17,7 +17,7 @@ on:
       - "Dockerfile"
 
 env:
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/crm-kafka-activity:${{ github.sha }}
+  IMAGE: ghcr.io/${{ github.repository }}/crm-kafka-activity:${{ github.sha }}
   ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   # ----------------------------- #
@@ -58,6 +58,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-java@v1
         with:
           java-version: "8.x"
@@ -176,6 +181,7 @@ jobs:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .nais/${{ matrix.resource }}/dev.yml
+          VAR: image=${{ env.IMAGE }}
 
   # ----------------------------- #
   # -------- deploy prod -------- #

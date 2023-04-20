@@ -17,13 +17,16 @@ val EMP_URL = if (System.getenv("EMP_ENV") == "prod") "https://navdialog.my.sale
                 else if (System.getenv("EMP_ENV") == "dev") "https://test.salesforce.com"
                 else ""
 
+val VERSION = System.getenv("VERSION")
+
 private val log = KotlinLogging.logger { }
 
 object Bootstrap {
 
     fun start() {
         enableNAISAPI {
-            log.info { "Initiate event processing" }
+            conditionalWait(2000)
+            log.info { "Initiate event processing v.$VERSION" }
             EMP.processEvents(
                 EMP_URL,
                 EMP_USERNAME,
@@ -32,19 +35,27 @@ object Bootstrap {
                 EmpConnector.REPLAY_FROM_EARLIEST
             )
             log.info { "Initiated event processing successfully" }
-            log.info { "Starting loop to continue running event processing in the background" }
+            log.info { "Starting loop to continue running event processing in the background v.$VERSION" }
+
+            conditionalWait(60_000) // Allow 1 minute for EMP to connect
+
+            log.info { "Will enter loop with connected state: ${EMP.connector.isConnected}" }
             loop()
         }
     }
 
     // needs loop to tell kubernetes processEvents() is still running and it not finished nor failing
     private tailrec fun loop() {
-        val stop = ShutdownHook.isActive() || PrestopHook.isActive()
+        val stop = ShutdownHook.isActive() || PrestopHook.isActive() || EMP.connector.isDisconnected
         when {
-            stop -> Unit
+            stop -> {
+                log.info { "Stopping with states ShutdownHook ${ShutdownHook.isActive()}, PrestopHook ${PrestopHook.isActive()}, EMP disconnected ${EMP.connector.isDisconnected}" }
+                conditionalWait(2000)
+                Unit
+            }
             !stop -> {
                 // do not run start() again, as processEvents() processes events as they occurs (not in batches)
-                conditionalWait(600000) // Suspended wait (should not hog resources)
+                conditionalWait(600_000) // Suspended wait 10 min (should not hog resources)
                 loop()
             }
         }
