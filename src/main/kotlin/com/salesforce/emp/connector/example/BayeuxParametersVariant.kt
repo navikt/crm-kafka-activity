@@ -66,7 +66,7 @@ interface BayeuxParametersVariant {
      * messages
      */
     fun maxBufferSize(): Int {
-        return 1048576 * 2
+        return 1048576 / 2
     }
 
     /**

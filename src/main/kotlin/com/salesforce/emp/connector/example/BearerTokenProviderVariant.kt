@@ -8,6 +8,7 @@ import java.util.function.Supplier
  * Calls BayeuxParameters supplier in re-authentication scenarios.
  *
  * @author pbn-sfdc
+ * modified by bjorn.hagglund
  */
 class BearerTokenProviderVariant(private val sessionSupplier: Supplier<BayeuxParametersVariant>) :
     Function<Boolean, String> {

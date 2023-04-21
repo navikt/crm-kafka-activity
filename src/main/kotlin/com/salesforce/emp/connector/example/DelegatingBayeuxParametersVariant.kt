@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit
 
 /**
  * @author hal.hildebrand
+ * modified by bjorn.hagglund
  * @since API v37.0
  */
 open class DelegatingBayeuxParametersVariant(private val parameters: BayeuxParametersVariant) :
