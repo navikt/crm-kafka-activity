@@ -6,6 +6,7 @@ import com.salesforce.emp.connector.example.BayeuxParametersVariant
 import com.salesforce.emp.connector.example.EmpConnectorVariant
 import com.salesforce.emp.connector.example.LoginHelperVariant
 import com.salesforce.emp.connector.example.BearerTokenProviderVariant
+import com.salesforce.emp.connector.example.LoggingListener
 import mu.KotlinLogging
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -55,6 +56,7 @@ object EMP {
 
         connector = EmpConnectorVariant(params)
 
+        val logl = LoggingListener()
         val logListener = LogListener()
         connector.addListener(META_HANDSHAKE, logListener)
             .addListener(META_CONNECT, logListener)
