@@ -1,5 +1,7 @@
 package no.nav.crm.kafka.activity
 
+import org.cometd.client.BayeuxClient
+import org.cometd.client.transport.ClientTransport
 import org.eclipse.jetty.client.HttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory
 
@@ -18,4 +20,5 @@ class SystemEnvironment {
     open val EMP_CONNECTION_WAIT: Long = 60_000
 
     open fun httpClient(contextFactory: SslContextFactory) = HttpClient(contextFactory)
+    open fun bayeuxClient(url: String, transport: ClientTransport) = BayeuxClient(url, transport)
 }

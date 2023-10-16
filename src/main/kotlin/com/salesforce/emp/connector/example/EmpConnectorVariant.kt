@@ -104,6 +104,7 @@ class EmpConnectorVariant {
     @Volatile
     private var client: BayeuxClient? = null
     private val httpClient: HttpClient?
+    private lateinit var bayeuxClientFn: (String, LongPollingTransport) -> BayeuxClient
     private val parameters: BayeuxParametersVariant
     private val replay: ConcurrentMap<String, Long> = ConcurrentHashMap()
     private val running = AtomicBoolean()
@@ -112,11 +113,16 @@ class EmpConnectorVariant {
     private var bearerTokenProvider: Function<Boolean, String>? = null
     private val reauthenticate = AtomicBoolean(false)
 
-    constructor(parameters: BayeuxParametersVariant, httpClientFn: (SslContextFactory) -> HttpClient) {
+    constructor(
+        parameters: BayeuxParametersVariant,
+        httpClientFn: (SslContextFactory) -> HttpClient,
+        bayeuxClientFn: (String, LongPollingTransport) -> BayeuxClient
+    ) {
         this.parameters = parameters
         val ctxFactory = parameters.sslContextFactory()
         httpClient = httpClientFn(ctxFactory)
         httpClient.proxyConfiguration.proxies.addAll(parameters.proxies())
+        this.bayeuxClientFn = bayeuxClientFn
     }
 
     constructor(parameters: BayeuxParametersVariant, httpClient: HttpClient?) {
@@ -271,7 +277,7 @@ class EmpConnectorVariant {
                     request.header(AUTHORIZATION, bearerToken)
                 }
             }
-        client = BayeuxClient(parameters.endpoint().toExternalForm(), httpTransport)
+        client = bayeuxClientFn(parameters.endpoint().toExternalForm(), httpTransport)
         client!!.addExtension(ReplayExtension(replay))
         addListeners(client!!)
         client!!.handshake { c: ClientSessionChannel, m: Message ->
