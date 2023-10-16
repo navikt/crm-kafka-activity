@@ -1,3 +1,3 @@
 package no.nav.crm.kafka.activity
 
-fun main() = Bootstrap.start()
+fun main(env: SystemEnvironment = SystemEnvironment()) = Bootstrap.start(env)
