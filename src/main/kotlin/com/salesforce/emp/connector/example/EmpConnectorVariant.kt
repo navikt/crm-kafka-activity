@@ -20,6 +20,7 @@ import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Consumer
 import java.util.function.Function
+import org.eclipse.jetty.util.ssl.SslContextFactory
 
 /**
  * @author hal.hildebrand
@@ -111,10 +112,10 @@ class EmpConnectorVariant {
     private var bearerTokenProvider: Function<Boolean, String>? = null
     private val reauthenticate = AtomicBoolean(false)
 
-    constructor(parameters: BayeuxParametersVariant) {
+    constructor(parameters: BayeuxParametersVariant, httpClientFn: (SslContextFactory) -> HttpClient) {
         this.parameters = parameters
         val ctxFactory = parameters.sslContextFactory()
-        httpClient = HttpClient(ctxFactory)
+        httpClient = httpClientFn(ctxFactory)
         httpClient.proxyConfiguration.proxies.addAll(parameters.proxies())
     }
 
