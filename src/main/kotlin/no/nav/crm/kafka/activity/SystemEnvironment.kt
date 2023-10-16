@@ -11,4 +11,6 @@ class SystemEnvironment {
         else ""
 
     open val VERSION = System.getenv("VERSION")
+    open val WORK_LOOP_WAIT: Long = 600_000
+    open val EMP_CONNECTION_WAIT: Long = 60_000
 }

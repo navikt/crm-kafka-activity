@@ -24,15 +24,15 @@ object Bootstrap {
             log.info { "Initiated event processing successfully" }
             log.info { "Starting loop to continue running event processing in the background v.${env.VERSION}" }
 
-            conditionalWait(60_000) // Allow 1 minute for EMP to connect
+            conditionalWait(env.EMP_CONNECTION_WAIT) // Allow 1 minute for EMP to connect
 
             log.info { "Will enter loop with connected state: ${EMP.connector.isConnected}" }
-            loop()
+            loop(env)
         }
     }
 
     // needs loop to tell kubernetes processEvents() is still running and it not finished nor failing
-    private tailrec fun loop() {
+    private tailrec fun loop(env: SystemEnvironment) {
         val stop = ShutdownHook.isActive() || PrestopHook.isActive() || EMP.connector.isDisconnected
         when {
             stop -> {
@@ -42,8 +42,8 @@ object Bootstrap {
             }
             !stop -> {
                 // do not run start() again, as processEvents() processes events as they occurs (not in batches)
-                conditionalWait(600_000) // Suspended wait 10 min (should not hog resources)
-                loop()
+                conditionalWait(env.WORK_LOOP_WAIT) // Suspended wait 10 min (should not hog resources)
+                loop(env)
             }
         }
     }
