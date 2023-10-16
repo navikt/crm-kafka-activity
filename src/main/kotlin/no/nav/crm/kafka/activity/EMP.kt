@@ -32,17 +32,11 @@ object EMP {
     lateinit var connector: EmpConnectorVariant
 
     @Throws(Throwable::class)
-    fun processEvents(
-        url: String,
-        username: String,
-        password: String,
-        topic: String,
-        replayFrom: Long
-    ) {
+    fun processEvents(env: SystemEnvironment, replayFrom: Long) {
 
         val supplier: BayeuxParametersVariant
         try {
-            supplier = LoginHelperVariant.login(URL(url), username, password)
+            supplier = LoginHelperVariant.login(URL(env.EMP_URL), env.EMP_USERNAME, env.EMP_PASSWORD)
         } catch (e: Exception) {
             log.error { "Error at login: " + e.message.toString() }
             throw RuntimeException(e)
@@ -70,7 +64,7 @@ object EMP {
         log.info { "Connection result : $result" }
 
         try {
-            connector.subscribe(topic, replayFrom, processData())[30, TimeUnit.SECONDS]
+            connector.subscribe("/topic/${env.EMP_TOPIC}", replayFrom, processData())[30, TimeUnit.SECONDS]
         } catch (e: ExecutionException) {
             log.error { "Subscribe ExecutionException:" + e.message }
             throw e.cause!!
