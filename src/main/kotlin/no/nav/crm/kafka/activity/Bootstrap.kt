@@ -9,33 +9,20 @@ import no.nav.crm.kafka.activity.nais.PrestopHook
 import no.nav.crm.kafka.activity.nais.ShutdownHook
 import no.nav.crm.kafka.activity.nais.enableNAISAPI
 
-// Environment dependencies injected in pod by nais kafka solution
-val EMP_USERNAME = System.getenv("EMP_USERNAME")
-val EMP_PASSWORD = System.getenv("EMP_PASSWORD")
-val EMP_TOPIC = System.getenv("EMP_TOPIC")
-val EMP_URL = if (System.getenv("EMP_ENV") == "prod") "https://navdialog.my.salesforce.com"
-                else if (System.getenv("EMP_ENV") == "dev") "https://test.salesforce.com"
-                else ""
-
-val VERSION = System.getenv("VERSION")
-
 private val log = KotlinLogging.logger { }
 
 object Bootstrap {
 
-    fun start() {
+    fun start(env: SystemEnvironment) {
         enableNAISAPI {
             conditionalWait(2000)
-            log.info { "Initiate event processing v.$VERSION" }
+            log.info { "Initiate event processing v.${env.VERSION}" }
             EMP.processEvents(
-                EMP_URL,
-                EMP_USERNAME,
-                EMP_PASSWORD,
-                "/topic/$EMP_TOPIC",
+                env,
                 EmpConnector.REPLAY_FROM_EARLIEST
             )
             log.info { "Initiated event processing successfully" }
-            log.info { "Starting loop to continue running event processing in the background v.$VERSION" }
+            log.info { "Starting loop to continue running event processing in the background v.${env.VERSION}" }
 
             conditionalWait(60_000) // Allow 1 minute for EMP to connect
 
