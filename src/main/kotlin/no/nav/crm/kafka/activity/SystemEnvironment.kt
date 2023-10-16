@@ -1,5 +1,8 @@
 package no.nav.crm.kafka.activity
 
+import org.eclipse.jetty.client.HttpClient
+import org.eclipse.jetty.util.ssl.SslContextFactory
+
 class SystemEnvironment {
     // Environment dependencies injected in pod by nais kafka solution
     open val EMP_USERNAME = System.getenv("EMP_USERNAME")
@@ -13,4 +16,6 @@ class SystemEnvironment {
     open val VERSION = System.getenv("VERSION")
     open val WORK_LOOP_WAIT: Long = 600_000
     open val EMP_CONNECTION_WAIT: Long = 60_000
+
+    open fun httpClient(contextFactory: SslContextFactory) = HttpClient(contextFactory)
 }
