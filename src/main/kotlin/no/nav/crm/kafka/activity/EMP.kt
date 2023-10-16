@@ -48,7 +48,7 @@ object EMP {
 
         val params = tokenProvider.login()
 
-        connector = EmpConnectorVariant(params, env::httpClient)
+        connector = EmpConnectorVariant(params, env::httpClient, env::bayeuxClient)
 
         val logl = LoggingListener()
         val logListener = LogListener()
