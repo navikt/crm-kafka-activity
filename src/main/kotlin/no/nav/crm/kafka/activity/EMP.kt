@@ -8,7 +8,6 @@ import com.salesforce.emp.connector.example.LoginHelperVariant
 import com.salesforce.emp.connector.example.BearerTokenProviderVariant
 import com.salesforce.emp.connector.example.LoggingListener
 import mu.KotlinLogging
-import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import java.lang.Exception
@@ -64,7 +63,7 @@ object EMP {
         log.info { "Connection result : $result" }
 
         try {
-            connector.subscribe("/topic/${env.EMP_TOPIC}", replayFrom, processData())[30, TimeUnit.SECONDS]
+            connector.subscribe("/topic/${env.EMP_TOPIC}", replayFrom, processData(env))[30, TimeUnit.SECONDS]
         } catch (e: ExecutionException) {
             log.error { "Subscribe ExecutionException:" + e.message }
             throw e.cause!!
@@ -79,7 +78,7 @@ object EMP {
     private var latestReplayId: String = "" // TODO Quick fix to stop double posting. Should investigate reason data seems to be handled twice from salesforce
     private var latestRecordId: String = ""
 
-    fun processData(): Consumer<Map<String, Any>> {
+    fun processData(env: SystemEnvironment): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
 
             workerThreadPool.submit {
@@ -97,8 +96,8 @@ object EMP {
                     latestReplayId = replayId ?: ""
                     latestRecordId = recordId ?: ""
 
-                    val producer = KafkaProducer<String, String>(kafkaProducerConfig)
-                    val record = ProducerRecord(topic, replayId, JSON.toString(event))
+                    val producer = env.kafkaProducer<String, String>()
+                    val record = ProducerRecord(env.kafkaConfigs().topic, replayId, JSON.toString(event))
 
                     producer.use { p ->
                         p.send(record) { m: RecordMetadata, e: Exception? ->

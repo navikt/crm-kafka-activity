@@ -1,5 +1,7 @@
 package no.nav.crm.kafka.activity
 
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.Producer
 import org.cometd.client.BayeuxClient
 import org.cometd.client.transport.ClientTransport
 import org.eclipse.jetty.client.HttpClient
@@ -21,4 +23,6 @@ class SystemEnvironment {
 
     open fun httpClient(contextFactory: SslContextFactory) = HttpClient(contextFactory)
     open fun bayeuxClient(url: String, transport: ClientTransport) = BayeuxClient(url, transport)
+    open fun kafkaConfigs() = Configurations()
+    open fun <K, V> kafkaProducer(): Producer<K, V> = KafkaProducer<K, V>(kafkaConfigs().kafkaProducerConfig)
 }
