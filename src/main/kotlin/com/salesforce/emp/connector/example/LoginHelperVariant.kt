@@ -10,6 +10,7 @@ import java.net.ConnectException
 import java.net.URL
 import java.nio.ByteBuffer
 import javax.xml.parsers.SAXParserFactory
+import org.eclipse.jetty.util.ssl.SslContextFactory
 
 /**
  * A helper to obtain the Authentication bearer token via login
@@ -28,15 +29,16 @@ object LoginHelperVariant {
 
     // The enterprise SOAP API endpoint used for the login call
     private const val soapUri = "/services/Soap/u/44.0/"
+    private val defaultHttpClient = { s: SslContextFactory -> HttpClient(s) }
 
     @Throws(Exception::class)
     fun login(username: String, password: String): BayeuxParametersVariant {
-        return login(URL(LOGIN_ENDPOINT), username, password)
+        return login(URL(LOGIN_ENDPOINT), username, password, defaultHttpClient)
     }
 
     @Throws(Exception::class)
     fun login(username: String, password: String, params: BayeuxParametersVariant): BayeuxParametersVariant {
-        return login(URL(LOGIN_ENDPOINT), username, password, params)
+        return login(URL(LOGIN_ENDPOINT), username, password, defaultHttpClient, params)
     }
 
     @JvmOverloads
@@ -45,6 +47,7 @@ object LoginHelperVariant {
         loginEndpoint: URL?,
         username: String,
         password: String,
+        httpClientFn: (SslContextFactory) -> HttpClient,
         parameters: BayeuxParametersVariant = object : BayeuxParametersVariant {
             override fun bearerToken(): String {
                 throw IllegalStateException("Have not authenticated")
@@ -55,7 +58,7 @@ object LoginHelperVariant {
             }
         }
     ): BayeuxParametersVariant {
-        val client = HttpClient(parameters.sslContextFactory())
+        val client = httpClientFn(parameters.sslContextFactory())
         return try {
             client.proxyConfiguration.proxies.addAll(parameters.proxies())
             client.start()

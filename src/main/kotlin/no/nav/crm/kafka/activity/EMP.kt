@@ -36,7 +36,7 @@ object EMP {
 
         val supplier: BayeuxParametersVariant
         try {
-            supplier = LoginHelperVariant.login(URL(env.EMP_URL), env.EMP_USERNAME, env.EMP_PASSWORD)
+            supplier = LoginHelperVariant.login(URL(env.EMP_URL), env.EMP_USERNAME, env.EMP_PASSWORD, env::httpClient)
         } catch (e: Exception) {
             log.error { "Error at login: " + e.message.toString() }
             throw RuntimeException(e)
