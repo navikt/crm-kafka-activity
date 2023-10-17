@@ -23,7 +23,6 @@ import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 import org.eclipse.jetty.util.ajax.JSON
-import java.util.concurrent.Executors
 
 private val log = KotlinLogging.logger { }
 
@@ -73,15 +72,13 @@ object EMP {
         }
     }
 
-    private val workerThreadPool = Executors.newFixedThreadPool(1)
-
     private var latestReplayId: String = "" // TODO Quick fix to stop double posting. Should investigate reason data seems to be handled twice from salesforce
     private var latestRecordId: String = ""
 
     fun processData(env: SystemEnvironment): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
 
-            workerThreadPool.submit {
+            env.workerThreadPool().submit {
                 val eventObject = JSON.toString(event.get("event"))
                 val eventMap = ObjectMapper().readValue<MutableMap<Any, String>>(eventObject)
                 val replayId = eventMap.get("replayId")
