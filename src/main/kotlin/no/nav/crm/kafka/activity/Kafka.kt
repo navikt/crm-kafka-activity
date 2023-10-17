@@ -18,44 +18,46 @@ const val EV_kafkaKeystorePath = "KAFKA_KEYSTORE_PATH"
 const val EV_kafkaCredstorePassword = "KAFKA_CREDSTORE_PASSWORD"
 const val EV_kafkaTruststorePath = "KAFKA_TRUSTSTORE_PATH"
 
-val topic = fetchEnv(EV_kafkaTopic)
+class Configurations(private val envFn: (String) -> String = System::getenv) {
+    val topic = fetchEnv(EV_kafkaTopic)
 
-val kafkaProducerConfig: Properties = mapOf<String, Any>(
-    ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-    ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
-    ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to fetchEnv(EV_kafkaBrokers),
-    ProducerConfig.CLIENT_ID_CONFIG to fetchEnv(EV_kafkaClientID),
-    ProducerConfig.ACKS_CONFIG to "all",
-    ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG to 60000,
-    CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
-    SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaKeystorePath),
-    SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword),
-    SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaTruststorePath),
-    SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword))
-    .asProperties()
+    val kafkaProducerConfig: Properties = mapOf<String, Any>(
+        ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
+        ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG to StringSerializer::class.java,
+        ProducerConfig.BOOTSTRAP_SERVERS_CONFIG to fetchEnv(EV_kafkaBrokers),
+        ProducerConfig.CLIENT_ID_CONFIG to fetchEnv(EV_kafkaClientID),
+        ProducerConfig.ACKS_CONFIG to "all",
+        ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG to 60000,
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
+        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaKeystorePath),
+        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword),
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaTruststorePath),
+        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword))
+        .asProperties()
 
-val kafkaConsumerConfig: Properties = mapOf<String, Any>(
-    ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-    ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
-    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to fetchEnv(EV_kafkaBrokers),
-    ConsumerConfig.GROUP_ID_CONFIG to fetchEnv(EV_kafkaClientID),
-    ConsumerConfig.CLIENT_ID_CONFIG to fetchEnv(EV_kafkaClientID),
-    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
-    ConsumerConfig.MAX_POLL_RECORDS_CONFIG to 200, // Match maximum when sending to SF REST API
-    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false", // Do not commit until operation with data is confirmed
-    CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
-    SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaKeystorePath),
-    SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword),
-    SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaTruststorePath),
-    SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword))
-    .asProperties()
+    val kafkaConsumerConfig: Properties = mapOf<String, Any>(
+        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
+        ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
+        ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to fetchEnv(EV_kafkaBrokers),
+        ConsumerConfig.GROUP_ID_CONFIG to fetchEnv(EV_kafkaClientID),
+        ConsumerConfig.CLIENT_ID_CONFIG to fetchEnv(EV_kafkaClientID),
+        ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest",
+        ConsumerConfig.MAX_POLL_RECORDS_CONFIG to 200, // Match maximum when sending to SF REST API
+        ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false", // Do not commit until operation with data is confirmed
+        CommonClientConfigs.SECURITY_PROTOCOL_CONFIG to "SSL",
+        SslConfigs.SSL_KEYSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaKeystorePath),
+        SslConfigs.SSL_KEYSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword),
+        SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG to fetchEnv(EV_kafkaTruststorePath),
+        SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG to fetchEnv(EV_kafkaCredstorePassword))
+        .asProperties()
 
-fun Map<String, Any>.asProperties(): Properties {
-    val props = Properties()
-    this.forEach { (k, v) -> props[k] = v }
-    return props
-}
+    fun Map<String, Any>.asProperties(): Properties {
+        val props = Properties()
+        this.forEach { (k, v) -> props[k] = v }
+        return props
+    }
 
-fun fetchEnv(env: String): String {
-    return System.getenv(env)
+    fun fetchEnv(env: String): String {
+        return envFn(env)
+    }
 }
