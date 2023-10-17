@@ -41,6 +41,7 @@ object Bootstrap {
                 Unit
             }
             !stop -> {
+                env.workloopHook()
                 // do not run start() again, as processEvents() processes events as they occurs (not in batches)
                 conditionalWait(env.WORK_LOOP_WAIT) // Suspended wait 10 min (should not hog resources)
                 loop(env)

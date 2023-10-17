@@ -29,4 +29,5 @@ class SystemEnvironment {
     open fun kafkaConfigs() = Configurations()
     open fun <K, V> kafkaProducer(): Producer<K, V> = KafkaProducer<K, V>(kafkaConfigs().kafkaProducerConfig)
     open fun workerThreadPool() = workerThreadPool
+    open fun workloopHook() {}
 }
