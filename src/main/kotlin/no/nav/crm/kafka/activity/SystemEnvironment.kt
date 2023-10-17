@@ -1,5 +1,6 @@
 package no.nav.crm.kafka.activity
 
+import java.util.concurrent.Executors
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.Producer
 import org.cometd.client.BayeuxClient
@@ -8,6 +9,8 @@ import org.eclipse.jetty.client.HttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory
 
 class SystemEnvironment {
+    private val workerThreadPool = Executors.newFixedThreadPool(1)
+
     // Environment dependencies injected in pod by nais kafka solution
     open val EMP_USERNAME = System.getenv("EMP_USERNAME")
     open val EMP_PASSWORD = System.getenv("EMP_PASSWORD")
@@ -25,4 +28,5 @@ class SystemEnvironment {
     open fun bayeuxClient(url: String, transport: ClientTransport) = BayeuxClient(url, transport)
     open fun kafkaConfigs() = Configurations()
     open fun <K, V> kafkaProducer(): Producer<K, V> = KafkaProducer<K, V>(kafkaConfigs().kafkaProducerConfig)
+    open fun workerThreadPool() = workerThreadPool
 }
