@@ -20,10 +20,11 @@ env:
   IMAGE: ghcr.io/${{ github.repository }}/crm-kafka-activity:${{ github.sha }}
   ORG_GRADLE_PROJECT_githubPassword: ${{ secrets.GITHUB_TOKEN }}
 jobs:
+  permissions:
+    packages: 'write'
   # ----------------------------- #
   # --------- run tests --------- #
   # ----------------------------- #
-
   test:
     name: Run tests
     runs-on: ubuntu-latest
