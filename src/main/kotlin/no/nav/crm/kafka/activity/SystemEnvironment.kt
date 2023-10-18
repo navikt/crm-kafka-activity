@@ -8,7 +8,7 @@ import org.cometd.client.transport.ClientTransport
 import org.eclipse.jetty.client.HttpClient
 import org.eclipse.jetty.util.ssl.SslContextFactory
 
-class SystemEnvironment {
+open class SystemEnvironment {
     private val workerThreadPool = Executors.newFixedThreadPool(1)
 
     // Environment dependencies injected in pod by nais kafka solution
