@@ -127,32 +127,32 @@ jobs:
           fi
 
           echo Checking if Dockerfile, /src or build.gradle was changed as well. Then, all apps will be re-deployed...
-          data=$(git diff --name-only HEAD^ HEAD)
-          for i in $data; do
+          # wouldn't it make sense to use github.{event.before,sha} here too?
+          if git diff --name-only HEAD^ HEAD |grep -e '^Dockerfile$' -e '^src/' -e '^build\.gradle$'; then
+              echo "The above files were changed, so all apps are re-deployed."
 
-              row=$(echo ${i%%/} | cut -d '/' -f 1)
-              
-              # if changed file is Dockerfile, inside /src or build.gradle
-              if [  "$row" = "Dockerfile" ] || [  "$row" = "src" ] || [  "$row" = "build.gradle" ]; then
-                  echo $row was changed, so all apps are re-deployed
-                  
-                  # cause all apps to re-deploy
-                  MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
-                  echo "Apps to re-deploy: $MATRIX"
+              # cause all apps to re-deploy
+              MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
+              matrix=(.nais/*/)
+              matrix=("${matrix[@]%/}")
+              matrix=("${matrix[@]#.nais/}")
+              echo "Apps to re-deploy: $MATRIX"
+              echo "Likely apps to re-deploy: ${matrix[@]}"
 
-                  JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
-                  echo "JSON matrix: $JSON"
+              JSON=$(jq -c -n --arg v $MATRIX '{"resource": $v|split(",")}')
+              json=$(jq -c -n '{resource: $ARGS.positional[]}' --args "${matrix[@]}"
+              echo "JSON matrix: $JSON"
+              echo "Likely json matrix: $json"
 
-                  echo "::set-output name=matrix::$JSON"
-                  echo "::set-output name=emptyMatrix::false"
-              fi
-          done
+              echo "::set-output name=matrix::$JSON"
+              echo "::set-output name=emptyMatrix::false"
+          fi
 
           # if manual deployment, add all to matrix
           if [ ${{ github.event_name }} == 'workflow_dispatch' ]; then
             echo ----------------------------
             echo Manual deployment, deploy all topics
-            
+
             # cause all apps to re-deploy
             MATRIX=$(for i in $(ls -d .nais/*/); do echo ${i%%/}; done | grep .nais/ | cut -d '/' -f 2 | paste -d',' -s )
             echo "Apps to re-deploy: $MATRIX"
