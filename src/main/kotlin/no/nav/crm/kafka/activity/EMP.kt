@@ -8,7 +8,6 @@ import com.salesforce.emp.connector.example.LoginHelperVariant
 import com.salesforce.emp.connector.example.BearerTokenProviderVariant
 import com.salesforce.emp.connector.example.LoggingListener
 import mu.KotlinLogging
-import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import java.lang.Exception
@@ -24,7 +23,6 @@ import org.cometd.bayeux.Channel.META_HANDSHAKE
 import org.cometd.bayeux.Channel.META_SUBSCRIBE
 import org.cometd.bayeux.Channel.META_UNSUBSCRIBE
 import org.eclipse.jetty.util.ajax.JSON
-import java.util.concurrent.Executors
 
 private val log = KotlinLogging.logger { }
 
@@ -32,17 +30,11 @@ object EMP {
     lateinit var connector: EmpConnectorVariant
 
     @Throws(Throwable::class)
-    fun processEvents(
-        url: String,
-        username: String,
-        password: String,
-        topic: String,
-        replayFrom: Long
-    ) {
+    fun processEvents(env: SystemEnvironment, replayFrom: Long) {
 
         val supplier: BayeuxParametersVariant
         try {
-            supplier = LoginHelperVariant.login(URL(url), username, password)
+            supplier = LoginHelperVariant.login(URL(env.EMP_URL), env.EMP_USERNAME, env.EMP_PASSWORD, env::httpClient)
         } catch (e: Exception) {
             log.error { "Error at login: " + e.message.toString() }
             throw RuntimeException(e)
@@ -54,7 +46,7 @@ object EMP {
 
         val params = tokenProvider.login()
 
-        connector = EmpConnectorVariant(params)
+        connector = EmpConnectorVariant(params, env::httpClient, env::bayeuxClient)
 
         val logl = LoggingListener()
         val logListener = LogListener()
@@ -70,7 +62,7 @@ object EMP {
         log.info { "Connection result : $result" }
 
         try {
-            connector.subscribe(topic, replayFrom, processData())[30, TimeUnit.SECONDS]
+            connector.subscribe("/topic/${env.EMP_TOPIC}", replayFrom, processData(env))[30, TimeUnit.SECONDS]
         } catch (e: ExecutionException) {
             log.error { "Subscribe ExecutionException:" + e.message }
             throw e.cause!!
@@ -80,15 +72,13 @@ object EMP {
         }
     }
 
-    private val workerThreadPool = Executors.newFixedThreadPool(1)
-
     private var latestReplayId: String = "" // TODO Quick fix to stop double posting. Should investigate reason data seems to be handled twice from salesforce
     private var latestRecordId: String = ""
 
-    fun processData(): Consumer<Map<String, Any>> {
+    fun processData(env: SystemEnvironment): Consumer<Map<String, Any>> {
         return Consumer<Map<String, Any>> { event ->
 
-            workerThreadPool.submit {
+            env.workerThreadPool().submit {
                 val eventObject = JSON.toString(event.get("event"))
                 val eventMap = ObjectMapper().readValue<MutableMap<Any, String>>(eventObject)
                 val replayId = eventMap.get("replayId")
@@ -103,8 +93,8 @@ object EMP {
                     latestReplayId = replayId ?: ""
                     latestRecordId = recordId ?: ""
 
-                    val producer = KafkaProducer<String, String>(kafkaProducerConfig)
-                    val record = ProducerRecord(topic, replayId, JSON.toString(event))
+                    val producer = env.kafkaProducer<String, String>()
+                    val record = ProducerRecord(env.kafkaConfigs().topic, replayId, JSON.toString(event))
 
                     producer.use { p ->
                         p.send(record) { m: RecordMetadata, e: Exception? ->
