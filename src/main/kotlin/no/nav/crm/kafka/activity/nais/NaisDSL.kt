@@ -10,8 +10,8 @@ import org.http4k.core.Response
 import org.http4k.core.Status
 import org.http4k.routing.bind
 import org.http4k.routing.routes
+import org.http4k.server.ApacheServer
 import org.http4k.server.Http4kServer
-import org.http4k.server.Netty
 import org.http4k.server.asServer
 
 private val log = KotlinLogging.logger { }
@@ -51,7 +51,7 @@ fun naisAPI(): HttpHandler = routes(
     }
 )
 
-fun naisAPIServer(port: Int): Http4kServer = naisAPI().asServer(Netty(port))
+fun naisAPIServer(port: Int): Http4kServer = naisAPI().asServer(ApacheServer(port))
 
 fun enableNAISAPI(port: Int = NAIS_DEFAULT_PORT, doSomething: () -> Unit): Boolean =
     naisAPIServer(port).let { srv ->

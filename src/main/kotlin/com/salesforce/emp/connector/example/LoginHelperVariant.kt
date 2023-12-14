@@ -23,9 +23,11 @@ object LoginHelperVariant {
     const val COMETD_REPLAY_OLD = "/cometd/replay/"
     const val LOGIN_ENDPOINT = "https://login.salesforce.com"
     private const val ENV_END = "</soapenv:Body></soapenv:Envelope>"
-    private const val ENV_START = ("<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' " +
+    private const val ENV_START = (
+        "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' " +
             "xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' " +
-            "xmlns:urn='urn:partner.soap.sforce.com'><soapenv:Body>")
+            "xmlns:urn='urn:partner.soap.sforce.com'><soapenv:Body>"
+        )
 
     // The enterprise SOAP API endpoint used for the login call
     private const val soapUri = "/services/Soap/u/44.0/"
@@ -84,7 +86,9 @@ object LoginHelperVariant {
             val soapEndpoint = URL(parser.serverUrl)
             val cometdEndpoint = if (parameters.version().toFloat() < 37) COMETD_REPLAY_OLD else COMETD_REPLAY
             val replayEndpoint = URL(
-                soapEndpoint.protocol, soapEndpoint.host, soapEndpoint.port,
+                soapEndpoint.protocol,
+                soapEndpoint.host,
+                soapEndpoint.port,
                 StringBuilder().append(cometdEndpoint).append(parameters.version()).toString()
             )
             object : DelegatingBayeuxParametersVariant(parameters) {
@@ -104,8 +108,10 @@ object LoginHelperVariant {
 
     @Throws(UnsupportedEncodingException::class)
     private fun soapXmlForLogin(username: String, password: String): ByteArray {
-        return (ENV_START + "  <urn:login>" + "    <urn:username>" + username + "</urn:username>" + "    <urn:password>" +
-                password + "</urn:password>" + "  </urn:login>" + ENV_END).toByteArray(charset("UTF-8"))
+        return (
+            ENV_START + "  <urn:login>" + "    <urn:username>" + username + "</urn:username>" + "    <urn:password>" +
+                password + "</urn:password>" + "  </urn:login>" + ENV_END
+            ).toByteArray(charset("UTF-8"))
     }
 
     private class LoginResponseParser : DefaultHandler() {

@@ -20,7 +20,8 @@ object ShutdownHook {
                         log.info { "shutdown hook activated" }
                         mainThread.join()
                     }
-                })
+                }
+            )
     }
 
     fun isActive() = shutdownhookActiveOrOther
