@@ -76,7 +76,7 @@ dependencies {
     implementation "org.apache.httpcomponents:httpclient:4.5.13" //Desired transient httpclient to http4k-apache
     implementation "org.xerial.snappy:snappy-java:1.1.10.4" //Desired transient snappy to kafka-clients above
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.cometd.java:cometd-java-server:7.0.10'
     testImplementation 'org.cometd.java:cometd-java-client:4.0.9'

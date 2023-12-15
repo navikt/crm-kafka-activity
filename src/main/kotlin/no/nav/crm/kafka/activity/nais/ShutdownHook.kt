@@ -18,7 +18,6 @@ object ShutdownHook {
                     override fun run() {
                         shutdownhookActiveOrOther = true
                         log.info { "shutdown hook activated" }
-                        mainThread.join()
                     }
                 }
             )
