@@ -208,7 +208,8 @@ class EmpConnectorVariant {
         check(replay.putIfAbsent(topicWithoutQueryString, replayFrom) == null) {
             String.format(
                 "Already subscribed to %s [%s]",
-                topic, parameters.endpoint()
+                topic,
+                parameters.endpoint()
             )
         }
         val subscription: SubscriptionImpl = SubscriptionImpl(topic, consumer)
