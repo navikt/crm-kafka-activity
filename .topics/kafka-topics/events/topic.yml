@@ -26,3 +26,6 @@ spec:
     - team: dvh-arbeid
       application: dvh-arbeidsgiverkontakt-moter-konsument
       access: read
+    - team: teamoppfolging
+      application: teamoppfolging-kafka
+      access: read

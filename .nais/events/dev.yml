@@ -29,6 +29,8 @@ spec:
           namespace: dvh-arbeid
         - application: teamoppfolging-kcat
           namespace: dvh-arbeid
+        - application: teamoppfolging-kafka
+          namespace: teamoppfolging
     outbound:
       external:
         - host: salesforce.com
