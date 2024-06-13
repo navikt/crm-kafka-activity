@@ -21,7 +21,7 @@ jobs:
     steps:
       # Checkout
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -70,20 +70,22 @@ jobs:
     name: Deploy Dev
     needs: setup-matrix
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: needs.setup-matrix.outputs.emptyMatrix == 'false'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
       # checkout code
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # deploy to dev gcp
       - name: deploy to dev
         if: matrix.topic != 'template'
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
           RESOURCE: .topics/kafka-topics/${{ matrix.topic }}/topic.yml
           VARS: .topics/kafka-topics/${{ matrix.topic }}/dev-vars.yml
@@ -97,20 +99,22 @@ jobs:
     name: Deploy Production
     needs: setup-matrix
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     if: needs.setup-matrix.outputs.emptyMatrix == 'false' && github.ref == 'refs/heads/main'
     strategy:
       matrix: ${{ fromJson(needs.setup-matrix.outputs.matrix) }}
     steps:
       # checkout code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # deploy to prod gcp
       - name: deploy to prod
         if: matrix.topic != 'template'
-        uses: nais/deploy/actions/deploy@v1
+        uses: nais/deploy/actions/deploy@v2
         env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
           RESOURCE: .topics/kafka-topics/${{ matrix.topic }}/topic.yml
           VARS: .topics/kafka-topics/${{ matrix.topic }}/prod-vars.yml
