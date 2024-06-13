@@ -72,7 +72,7 @@ dependencies {
     implementation "io.prometheus:simpleclient_common:0.8.1"
     implementation "io.prometheus:simpleclient_hotspot:0.8.1"
 
-    implementation "org.apache.commons:commons-compress:1.24.0" //transient http4k-apache
+    implementation "org.apache.commons:commons-compress:1.26.0" //transient http4k-apache
     implementation "org.apache.httpcomponents:httpclient:4.5.13" //Desired transient httpclient to http4k-apache
     implementation "org.xerial.snappy:snappy-java:1.1.10.4" //Desired transient snappy to kafka-clients above
     implementation "org.eclipse.jetty:jetty-http:9.4.53.v20231009" //Desired transient jetty for cometd
