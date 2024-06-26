@@ -15,6 +15,7 @@
         "TAG_UserNAVUnit__c": "0208",                       // NAV Unit Number (NORG ID) that the NAV employee that created the task is working at
         "WhatId": "0010E00000k8TRQQA2",                     // Salesforce ID to the related record (should be the organisation)
         "ReminderDateTime": "2021-03-29T17:00:00.000Z",     // If the user set a date for when to be reminded about the task
+        "TAG_IACaseNumber__c": "01G67TAEF9TYJS09GPSRVX0BP1", // IA case number which the task is related to. Is null if not connected to IA case
         "IsClosed": false,                                  // If the task is finished/completed by the user
         "TAG_ActivityType__c": "Rekruttere og inkludere",   // "Rekruttere og inkludere", "Forebygge sykefravær og redusere frafall", "Nedbemanne" (predefined choices in a dropdown meny)
         "TAG_Service__c": "Jobbmesser og møteplass",        // Dependant on field TAG_ActivityType__c. Rekruttere og inkludere=['Jobbmesser og møteplasser', 'Rekrutteringsoppdrag', 'Informasjon om NAVs tjenester', 'Tiltaksøkonomi', 'Inkluderende rekruttering', 'IPS Jobbutvikling', 'IPS Jobbstøtte'], Forebygge sykefravær og redusere frafall=['Helse i arbeid', 'Redusere sykefravær', 'Forbyggende arbeidsmiljøarbeid', 'Informasjon om NAVs tjenester', 'Generell sykefraværsoppfølging'], Nedbemanne=['Permittering', 'Informasjon om NAVs tjenester', 'Masseoppsigelser', 'Lønnskompensasjon']

@@ -24,6 +24,7 @@
         "SH_DurationTime__c": 60.0,                             // Contains the event length, in minutes
         "SH_EndDateTime__c": "2021-03-30T18:00:00.000Z",        // The time portion of this field is always transferred in the Coordinated Universal Time (UTC) time zone. Translate the time portion to or from a local time zone for the user or the application, as appropriate. This field is optional.
         "SH_EventSubtype__c": "Event",                          // Always Event
+        "SH_IACaseNumber__c": "01G67TAEF9TYJS09GPSRVX0BP1",     // IA case number which the event is related to. Is null if not connected to IA case
         "SH_OwnerId__c": "0052o000009UFFSAA4",                  // Salesforce ID for the NAV employee that owns the meeting
         "SH_Region__c": "Øst-Viken",
         "SH_RelatedToAccount__c": "0010E000014TeDpQAK",         // Salesforce ID to the organisation
