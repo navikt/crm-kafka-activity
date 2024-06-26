@@ -31,6 +31,8 @@ spec:
           namespace: dvh-arbeid
         - application: teamoppfolging-kafka
           namespace: teamoppfolging
+        - application: lydia-api
+          namespace: pia
     outbound:
       external:
         - host: salesforce.com

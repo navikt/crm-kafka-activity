@@ -77,6 +77,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>EventShadow__c.SH_IACaseNumber__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>EventShadow__c.SH_IsArchived__c</field>
         <readable>true</readable>
     </fieldPermissions>
