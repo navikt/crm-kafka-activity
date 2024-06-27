@@ -6,6 +6,7 @@ String PARAMETERS = '';       // After a WHERE clause. Empty or null to fetch al
 // --------------------------------------------------
 // ---------- DO NOT CHANGE ANYTHING BELOW ----------
 // --------------------------------------------------
+// --------------------------------------------------
 
 List<PushTopic> oldVersion = [SELECT Id FROM PushTopic WHERE Name = : PUSH_TOPIC_NAME LIMIT 1];
 
